@@ -1,87 +1,75 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import Image from "next/image"
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
-export function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isFading, setIsFading] = useState(false)
+interface LoadingScreenProps {
+  onComplete?: () => void;
+}
+
+export function LoadingScreen({ onComplete }: LoadingScreenProps) {
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Wait for window load event to ensure all resources are loaded
-    const handleLoad = () => {
-      // Start fade out animation
-      setIsFading(true)
-      // Remove loading screen after fade animation completes
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 600)
-    }
-
-    // Check if already loaded
-    if (document.readyState === "complete") {
-      // Add minimum display time for brand presence
-      setTimeout(handleLoad, 800)
-    } else {
-      window.addEventListener("load", () => {
-        setTimeout(handleLoad, 800)
-      })
-    }
-
-    return () => {
-      window.removeEventListener("load", handleLoad)
-    }
-  }, [])
-
-  if (!isLoading) return null
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 1800);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white transition-opacity duration-[600ms] ease-out ${
-        isFading ? "opacity-0" : "opacity-100"
-      }`}
-    >
-      {/* Logo Container */}
-      <div className="flex flex-col items-center gap-6 px-4">
-        {/* Company Logo */}
-        <div className="relative w-48 h-16 sm:w-64 sm:h-20 md:w-80 md:h-24 lg:w-96 lg:h-28">
-          <Image
-            src="/images/logo-blue.png"
-            alt="GÜVEN İş ve İstif Makinaları"
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
+    <AnimatePresence onExitComplete={onComplete}>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          className="fixed inset-0 z-[200] bg-[#1E5AA8] flex items-center justify-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="flex flex-col items-center gap-8"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative w-64 h-20 sm:w-80 sm:h-24"
+            >
+              <Image
+                src="/images/logo-white.png"
+                alt="Güven İş ve İstif Makinaları"
+                fill
+                className="object-contain"
+                priority
+              />
+            </motion.div>
 
-        {/* Loading Animation - Thin Progress Bar */}
-        <div className="w-48 md:w-64 h-0.5 bg-[#E5E7EB] rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-[#1E5AA8] rounded-full animate-loading-bar"
-          />
-        </div>
-      </div>
+            {/* Loading bar */}
+            <div className="w-48 md:w-64 h-0.5 bg-white/20 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-white rounded-full"
+                initial={{ x: '-100%' }}
+                animate={{ x: '200%' }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
 
-      {/* CSS Animation */}
-      <style jsx>{`
-        @keyframes loading-bar {
-          0% {
-            width: 0%;
-            margin-left: 0%;
-          }
-          50% {
-            width: 60%;
-            margin-left: 20%;
-          }
-          100% {
-            width: 0%;
-            margin-left: 100%;
-          }
-        }
-        .animate-loading-bar {
-          animation: loading-bar 1.5s ease-in-out infinite;
-        }
-      `}</style>
-    </div>
-  )
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-white/70 text-sm tracking-widest uppercase font-sans"
+            >
+              Güven ile kiralayın
+            </motion.p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }

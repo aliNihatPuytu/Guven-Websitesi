@@ -1,124 +1,119 @@
-"use client"
+'use client';
 
-import Image from "next/image"
-import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, MapPin } from "lucide-react"
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, MapPin } from 'lucide-react';
+import { SectionWrapper, FadeIn } from '@/components/ui/section-wrapper';
 
 const projects = [
   {
-    id: "istanbul-metro",
-    title: "İstanbul Metro Şantiye Çalışmaları",
-    location: "İstanbul, Türkiye",
-    description:
-      "İstanbul metrosu genişletme projesi kapsamında büyük çaplı kazı ve hafriyat işleri gerçekleştirildi.",
-    image: "/images/projects/metro-construction.jpg",
-    machines: ["Ekskavatör", "Yükleyici", "Kamyon"],
+    id: 'istanbul-metro',
+    title: 'İstanbul Metro Şantiye Çalışmaları',
+    location: 'İstanbul, Türkiye',
+    description: 'İstanbul metrosu genişletme projesi kapsamında büyük çaplı kazı ve hafriyat işleri gerçekleştirildi.',
+    image: '/images/projects/metro-construction.jpg',
+    machines: ['Ekskavatör', 'Yükleyici', 'Kamyon'],
   },
   {
-    id: "konut-projesi",
-    title: "Büyük Konut Projesi Hafriyat",
-    location: "Ankara, Türkiye",
-    description:
-      "2000 konutluk dev projede temel kazı ve zemin hazırlık çalışmaları başarıyla tamamlandı.",
-    image: "/images/projects/residential-excavation.jpg",
-    machines: ["Mini Ekskavatör", "Forklift", "Kompresör"],
+    id: 'konut-projesi',
+    title: 'Büyük Konut Projesi Hafriyat',
+    location: 'Ankara, Türkiye',
+    description: '2000 konutluk dev projede temel kazı ve zemin hazırlık çalışmaları başarıyla tamamlandı.',
+    image: '/images/projects/residential-excavation.jpg',
+    machines: ['Mini Ekskavatör', 'Forklift', 'İstif Makinesi'],
   },
   {
-    id: "endustriyel-tesis",
-    title: "Endüstriyel Tesis İnşaatı",
-    location: "Kocaeli, Türkiye",
-    description:
-      "50.000 m² alana sahip endüstriyel tesis inşaatında kapsamlı makine desteği sağlandı.",
-    image: "/images/projects/industrial-facility.jpg",
-    machines: ["Ekskavatör", "Forklift", "Jeneratör"],
+    id: 'endustriyel-tesis',
+    title: 'Endüstriyel Tesis İnşaatı',
+    location: 'Kocaeli, Türkiye',
+    description: '50.000 m² alana sahip endüstriyel tesis inşaatında kapsamlı makine desteği sağlandı.',
+    image: '/images/projects/industrial-facility.jpg',
+    machines: ['Ekskavatör', 'Forklift', 'Yükleyici'],
   },
-]
+];
 
 export function ProjectGallery() {
   return (
-    <section id="projeler" className="py-8 md:py-12 lg:py-20 bg-background">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-8 md:mb-12 lg:mb-16">
-          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground">
-            Projelerimiz
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Türkiye genelinde tamamladığımız büyük ölçekli projelerden bazıları.
-          </p>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <Card
-              key={project.id}
-              className="group overflow-hidden bg-background border-border hover:shadow-xl transition-all duration-300"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-white text-white hover:bg-white hover:text-primary bg-transparent"
-                  >
-                    <Link href={`/projeler/${project.id}`}>
-                      Projeyi İncele
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                  <MapPin className="h-4 w-4" />
-                  {project.location}
-                </div>
-                <h3 className="font-serif text-xl text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {project.machines.slice(0, 3).map((machine) => (
-                    <span
-                      key={machine}
-                      className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded"
-                    >
-                      {machine}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* View All Button */}
-        <div className="text-center mt-8 md:mt-12">
+    <SectionWrapper id="projeler" className="py-24 lg:py-32 bg-[#F2F1ED]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
+        <FadeIn className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div>
+            <span className="text-sm font-medium text-[#1E5AA8] tracking-widest uppercase">
+              Projelerimiz
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#2B2B2B] mt-3">
+              Tamamladığımız Projeler
+            </h2>
+          </div>
           <Button
             asChild
-            size="lg"
             variant="outline"
-            className="w-full sm:w-auto min-h-[48px] border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            className="border-[#2B2B2B] text-[#2B2B2B] hover:bg-[#2B2B2B] hover:text-white group w-fit"
           >
-            <Link href="/projeler">
+            <Link href="/projeler" className="flex items-center gap-2">
               Tüm Projeleri Gör
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
+        </FadeIn>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="group overflow-hidden rounded-lg bg-white border border-[#E5E5E5] hover:shadow-xl transition-all duration-300"
+            >
+              <Link href={`/projeler/${project.id}`}>
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-[#1E5AA8]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Button
+                      variant="outline"
+                      className="border-white text-white hover:bg-white hover:text-[#1E5AA8] bg-transparent"
+                    >
+                      Projeyi İncele
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-1 text-sm text-[#2B2B2B]/60 mb-2">
+                    <MapPin className="h-4 w-4" />
+                    {project.location}
+                  </div>
+                  <h3 className="font-heading text-xl text-[#2B2B2B] mb-2 group-hover:text-[#1E5AA8] transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-[#2B2B2B]/70 text-sm leading-relaxed line-clamp-2 mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.machines.map((machine) => (
+                      <span
+                        key={machine}
+                        className="px-2 py-1 text-xs bg-[#EEF3FB] text-[#1E5AA8] rounded font-medium"
+                      >
+                        {machine}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </motion.article>
+          ))}
         </div>
       </div>
-    </section>
-  )
+    </SectionWrapper>
+  );
 }

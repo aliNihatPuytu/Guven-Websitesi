@@ -1,34 +1,61 @@
 import type { Metadata, Viewport } from 'next'
-import { Tenor_Sans, Inter } from 'next/font/google'
+import { Tenor_Sans, Open_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const tenorSans = Tenor_Sans({ 
+const tenorSans = Tenor_Sans({
   weight: '400',
-  subsets: ["latin"],
+  subsets: ['latin'],
   variable: '--font-tenor-sans',
   display: 'swap',
 })
 
-const inter = Inter({
-  subsets: ["latin"],
+const openSans = Open_Sans({
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-inter',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'GÜVEN İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
-  description: 'GÜVEN İş ve İstif Makinaları - 1978\'den beri iş makinası kiralama, satış ve hafriyat hizmetleri. Ekskavatör, forklift, yükleyici kiralama ve satış.',
-  keywords: ['iş makinası kiralama', 'ekskavatör kiralama', 'forklift kiralama', 'hafriyat hizmetleri', 'inşaat makinaları', 'makina satışı'],
-  authors: [{ name: 'GÜVEN İş ve İstif Makinaları' }],
-  creator: 'GÜVEN İş ve İstif Makinaları',
+  title: {
+    default: 'Güven İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
+    template: '%s | Güven İş ve İstif Makinaları',
+  },
+  description: 'Güven İş ve İstif Makinaları - 1978\'den beri iş ve istif makineleri satış, kiralama, yedek parça ve teknik destek hizmetleri. İstanbul Ümraniye.',
+  keywords: [
+    'iş makinası kiralama',
+    'istif makinası',
+    'forklift kiralama',
+    'ekskavatör kiralama',
+    'yedek parça',
+    'teknik destek',
+    'güven iş makinaları',
+    'ümraniye makina',
+    'istanbul iş makinaları',
+    'makina satışı',
+  ],
+  authors: [{ name: 'Güven İş ve İstif Makinaları', url: 'https://guvenismakina.com' }],
+  creator: 'Güven İş ve İstif Makinaları',
+  publisher: 'Güven İş ve İstif Makinaları',
+  metadataBase: new URL('https://guvenismakina.com'),
   openGraph: {
+    title: 'Güven İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
+    description: 'Güven İş ve İstif Makinaları - Satış, kiralama, yedek parça ve teknik destek.',
+    url: 'https://guvenismakina.com',
+    siteName: 'Güven İş ve İstif Makinaları',
     type: 'website',
     locale: 'tr_TR',
-    url: 'https://guvenmakinaları.com',
-    siteName: 'GÜVEN İş ve İstif Makinaları',
-    title: 'GÜVEN İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
-    description: 'GÜVEN İş ve İstif Makinaları - 1978\'den beri iş makinası kiralama, satış ve hafriyat hizmetleri.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 }
 
@@ -44,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="tr" className={`${tenorSans.variable} ${inter.variable}`}>
+    <html lang="tr" className={`${tenorSans.variable} ${openSans.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
         <Analytics />

@@ -16,7 +16,7 @@ const projects = {
     şehrin ulaşım altyapısına önemli katkılar sağlamıştır. Proje süresince 50.000 m³'ü aşkın hafriyat çıkarılmış, 
     güvenli ve verimli bir çalışma ortamı sağlanmıştır.
     
-    Zorlu kentsel koşullarda gerçekleştirilen bu proje, GÜVEN İş ve İstif Makinaları'nın teknik kapasitesini 
+    Zorlu kentsel koşullarda gerçekleştirilen bu proje, Güven İş ve İstif Makinaları'nın teknik kapasitesini 
     ve deneyimini bir kez daha kanıtlamıştır.`,
     heroImage: "/images/projects/metro-construction.jpg",
     machines: [
@@ -59,7 +59,7 @@ const projects = {
     Türkiye'nin önde gelen sanayi tesislerinden biri için gerçekleştirilen bu projede, 
     yoğun iş programı içinde zamanında teslim başarısı elde edildi.
     
-    Proje, GÜVEN İş ve İstif Makinaları'nın endüstriyel projeler konusundaki uzmanlığını 
+    Proje, Güven İş ve İstif Makinaları'nın endüstriyel projeler konusundaki uzmanlığını 
     ve güvenilirliğini ortaya koymaktadır.`,
     heroImage: "/images/projects/industrial-facility.jpg",
     machines: [
@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: ProjectParams) {
   }
 
   return {
-    title: `${project.title} | GÜVEN İş ve İstif Makinaları`,
+    title: `${project.title} | Güven İş ve İstif Makinaları`,
     description: project.description.slice(0, 160),
   }
 }
@@ -128,7 +128,7 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
               <ArrowLeft className="h-4 w-4" />
               Tüm Projeler
             </Link>
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mb-4">
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-white mb-4">
               {project.title}
             </h1>
             <div className="flex flex-wrap items-center gap-6 text-white/80">
@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Description */}
             <div className="lg:col-span-2">
-              <h2 className="font-serif text-2xl text-foreground mb-6">Proje Hakkında</h2>
+              <h2 className="font-heading text-2xl text-foreground mb-6">Proje Hakkında</h2>
               <div className="prose prose-lg max-w-none text-muted-foreground">
                 {project.description.split("\n\n").map((paragraph, index) => (
                   <p key={index} className="mb-4 leading-relaxed">
@@ -162,7 +162,7 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
 
               {/* Gallery */}
               <div className="mt-12">
-                <h2 className="font-serif text-2xl text-foreground mb-6">Proje Görselleri</h2>
+                <h2 className="font-heading text-2xl text-foreground mb-6">Proje Görselleri</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {project.gallery.map((image, index) => (
                     <div
@@ -185,8 +185,8 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
             <div className="lg:col-span-1">
               <Card className="sticky top-24 border-border">
                 <CardContent className="p-6">
-                  <h3 className="font-serif text-xl text-foreground mb-6 flex items-center gap-2">
-                    <Truck className="h-5 w-5 text-primary" />
+                  <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
+                    <Truck className="h-5 w-5 text-[#1E5AA8]" />
                     Kullanılan Makinalar
                   </h3>
                   <div className="space-y-4">
@@ -209,7 +209,7 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
                     </p>
                     <Button
                       asChild
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                      className="w-full bg-[#1E5AA8] text-[#1E5AA8]-foreground hover:bg-[#1E5AA8]/90"
                     >
                       <Link href="/#teklif">Teklif Al</Link>
                     </Button>

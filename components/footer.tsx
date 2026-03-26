@@ -1,126 +1,68 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Phone, Mail, MapPin } from "lucide-react"
+import Link from 'next/link';
+import Image from 'next/image';
+import { Phone, Mail, MapPin, Linkedin } from 'lucide-react';
 
-const footerLinks = {
-  company: {
-    title: "Şirket",
-    links: [
-      { name: "Hakkımızda", href: "/hakkimizda" },
-      { name: "Projeler", href: "/#projeler" },
-      { name: "Hizmetler", href: "/#hizmetler" },
-    ],
-  },
-  services: {
-    title: "Hizmetler",
-    links: [
-      { name: "Makina Kiralama", href: "/#teklif" },
-      { name: "Makina Satışı", href: "/#makinalar" },
-      { name: "Hafriyat", href: "/#hizmetler" },
-    ],
-  },
-  quickLinks: {
-    title: "Hızlı Bağlantılar",
-    links: [
-      { name: "Makinalar", href: "/#makinalar" },
-      { name: "Teklif Al", href: "/#teklif" },
-      { name: "İletişim", href: "/#iletisim" },
-    ],
-  },
-}
+const quickLinks = [
+  { name: 'Ana Sayfa', href: '/' },
+  { name: 'Hizmetler', href: '/#hizmetler' },
+  { name: 'Makinalar', href: '/#makinalar' },
+  { name: 'Projeler', href: '/#projeler' },
+  { name: 'Hakkımızda', href: '/#hakkimizda' },
+  { name: 'İletişim', href: '/#iletisim' },
+];
 
-const contactDetails = {
-  phone: "+90 (212) 555 12 34",
-  email: "info@guvenmakinaları.com",
-  address: "Organize Sanayi Bölgesi, İstanbul",
-}
+const serviceLinks = [
+  { name: 'İş ve İstif Makinesi Kiralama', href: '/#hizmetler' },
+  { name: 'Makina Satışı', href: '/#hizmetler' },
+  { name: 'Yedek Parça', href: '/#hizmetler' },
+  { name: 'Servis ve Teknik Destek', href: '/#hizmetler' },
+];
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-[#2B2B2B] text-white">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        {/* Main Footer */}
-        <div className="py-8 md:py-12 lg:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Logo & Description */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="inline-block mb-4">
-              <Image
-                src="/images/logo-white.png"
-                alt="GÜVEN İş ve İstif Makinaları"
-                width={180}
-                height={40}
-                className="h-9 w-auto md:h-10"
-              />
-            </Link>
-            <p className="text-white/70 leading-relaxed mb-6 max-w-sm">
-              1978'den beri inşaat ve sanayi sektörüne güvenilir makine çözümleri sunuyoruz.
-              Kalite ve güven ilkesiyle çalışıyoruz.
-            </p>
-            <div className="space-y-3">
-              <a
-                href={`tel:${contactDetails.phone}`}
-                className="flex items-center gap-3 text-white/80 hover:text-white transition-colors"
-              >
-                <Phone className="h-4 w-4" />
-                {contactDetails.phone}
-              </a>
-              <a
-                href={`mailto:${contactDetails.email}`}
-                className="flex items-center gap-3 text-white/80 hover:text-white transition-colors"
-              >
-                <Mail className="h-4 w-4" />
-                {contactDetails.email}
-              </a>
-              <div className="flex items-center gap-3 text-white/80">
-                <MapPin className="h-4 w-4" />
-                {contactDetails.address}
+    <footer className="bg-[#2B2B2B] text-stone-100">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+          {/* Company Info */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="inline-flex items-center mb-6">
+              <div className="relative w-40 h-12">
+                <Image
+                  src="/images/logo-white.png"
+                  alt="Güven İş ve İstif Makinaları"
+                  fill
+                  className="object-contain"
+                />
               </div>
+            </Link>
+            <p className="text-sm text-stone-300 leading-relaxed mb-6">
+              1978'den beri iş ve istif makineleri sektöründe güvenilir çözüm ortağınız.
+            </p>
+            <div className="flex gap-3">
+              <a
+                href="https://www.linkedin.com/company/güven-i̇ş-ve-i̇stif-makinaları/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-10 h-10 rounded-full bg-neutral-700 flex items-center justify-center transition-colors hover:bg-[#1E5AA8]"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h3 className="font-serif text-lg mb-4">{footerLinks.company.title}</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.links.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services Links */}
-          <div>
-            <h3 className="font-serif text-lg mb-4">{footerLinks.services.title}</h3>
-            <ul className="space-y-3">
-              {footerLinks.services.links.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-serif text-lg mb-4">{footerLinks.quickLinks.title}</h3>
+            <h3 className="font-heading text-lg mb-6">Hızlı Bağlantılar</h3>
             <ul className="space-y-3">
-              {footerLinks.quickLinks.links.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-sm text-stone-300 hover:text-[#1E5AA8] transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -128,15 +70,72 @@ export function Footer() {
               ))}
             </ul>
           </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="font-heading text-lg mb-6">Hizmetlerimiz</h3>
+            <ul className="space-y-3">
+              {serviceLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-stone-300 hover:text-[#1E5AA8] transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="font-heading text-lg mb-6">İletişim</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-[#1E5AA8] mt-0.5 shrink-0" />
+                <span className="text-sm text-stone-300">
+                  Esenşehir Mahallesi, Gündeş Sokak No:14
+                  <br />34776 Ümraniye / İstanbul
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-[#1E5AA8] mt-0.5 shrink-0" />
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+902163141294" className="text-sm text-stone-300 hover:text-[#1E5AA8] transition-colors">
+                    0 (216) 314 12 94
+                  </a>
+                  <a href="tel:+905322975813" className="text-sm text-stone-300 hover:text-[#1E5AA8] transition-colors">
+                    0 (532) 297 58 13
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-[#1E5AA8] shrink-0" />
+                <a
+                  href="mailto:info@guvenismakina.com"
+                  className="text-sm text-stone-300 hover:text-[#1E5AA8] transition-colors"
+                >
+                  info@guvenismakina.com
+                </a>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 py-6 text-center">
-          <p className="text-white/60 text-sm">
-            © {new Date().getFullYear()} Güven İş ve İstif Makinaları. Tüm hakları saklıdır.
-          </p>
+        <div className="py-6 border-t border-neutral-700">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-stone-400">
+              © {currentYear} Güven İş ve İstif Makinaları. Tüm hakları saklıdır.
+            </p>
+            <p className="text-sm text-stone-500">
+              "Güven ile kiralayın."
+            </p>
+          </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
