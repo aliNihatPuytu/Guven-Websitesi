@@ -36,12 +36,12 @@ const projects = [
 
 export function ProjectGallery() {
   return (
-    <SectionWrapper id="projeler" className="py-24 lg:py-32 bg-[#F2F1ED]">
+    <SectionWrapper id="projeler" className="py-24 lg:py-32 bg-[#F6F8FB]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
         <FadeIn className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
             <span className="text-sm font-medium text-[#1E5AA8] tracking-widest uppercase">
-              Projelerimiz
+              Referanslarımız
             </span>
             <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#2B2B2B] mt-3">
               Tamamladığımız Projeler
@@ -50,7 +50,7 @@ export function ProjectGallery() {
           <Button
             asChild
             variant="outline"
-            className="border-[#2B2B2B] text-[#2B2B2B] hover:bg-[#2B2B2B] hover:text-white group w-fit"
+            className="border-[#1E5AA8] text-[#1E5AA8] hover:bg-[#1E5AA8] hover:text-white group w-fit"
           >
             <Link href="/projeler" className="flex items-center gap-2">
               Tüm Projeleri Gör
@@ -63,11 +63,11 @@ export function ProjectGallery() {
           {projects.map((project, index) => (
             <motion.article
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group overflow-hidden rounded-lg bg-white border border-[#E5E5E5] hover:shadow-xl transition-all duration-300"
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              className="group overflow-hidden rounded-2xl bg-white border border-[#E8ECF0] hover:shadow-2xl hover:shadow-[#1E5AA8]/8 transition-all duration-400"
             >
               <Link href={`/projeler/${project.id}`}>
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -75,9 +75,9 @@ export function ProjectGallery() {
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover transition-transform duration-500 group-hover:scale-108"
                   />
-                  <div className="absolute inset-0 bg-[#1E5AA8]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[#1E5AA8]/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <Button
                       variant="outline"
                       className="border-white text-white hover:bg-white hover:text-[#1E5AA8] bg-transparent"
@@ -88,21 +88,21 @@ export function ProjectGallery() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-1 text-sm text-[#2B2B2B]/60 mb-2">
-                    <MapPin className="h-4 w-4" />
+                  <div className="flex items-center gap-1.5 text-sm text-[#2B2B2B]/50 mb-2">
+                    <MapPin className="h-4 w-4 text-[#1E5AA8]" />
                     {project.location}
                   </div>
                   <h3 className="font-heading text-xl text-[#2B2B2B] mb-2 group-hover:text-[#1E5AA8] transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-[#2B2B2B]/70 text-sm leading-relaxed line-clamp-2 mb-4">
+                  <p className="text-[#2B2B2B]/55 text-sm leading-relaxed line-clamp-2 mb-4">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {project.machines.map((machine) => (
                       <span
                         key={machine}
-                        className="px-2 py-1 text-xs bg-[#EEF3FB] text-[#1E5AA8] rounded font-medium"
+                        className="px-2.5 py-1 text-xs bg-[#EEF3FB] text-[#1E5AA8] rounded-md font-medium"
                       >
                         {machine}
                       </span>

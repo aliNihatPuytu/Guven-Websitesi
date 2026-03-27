@@ -79,19 +79,13 @@ export function QuoteCalculator() {
       if (res.ok) {
         setIsSubmitted(true);
       } else {
-        setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+        setError('Bir hata oluştu. Lütfen tekrar deneyin veya bizi arayın.');
       }
     } catch {
       setError('Bağlantı hatası. Lütfen tekrar deneyin.');
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleReset = () => {
-    setFormData(initialForm);
-    setIsSubmitted(false);
-    setError('');
   };
 
   if (isSubmitted) {
@@ -103,16 +97,20 @@ export function QuoteCalculator() {
             animate={{ opacity: 1, scale: 1 }}
             className="max-w-2xl mx-auto text-center"
           >
-            <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="h-10 w-10 text-white" />
+            <div className="w-24 h-24 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="h-12 w-12 text-white" />
             </div>
             <h2 className="font-heading text-3xl sm:text-4xl text-white mb-4">
               Teklif Talebiniz Alındı!
             </h2>
-            <p className="text-white/90 text-lg mb-8">
-              En kısa sürede sizinle iletişime geçeceğiz. Bizi tercih ettiğiniz için teşekkür ederiz.
+            <p className="text-white/80 text-lg mb-8 leading-relaxed">
+              En kısa sürede sizinle iletişime geçeceğiz.<br />Bizi tercih ettiğiniz için teşekkür ederiz.
             </p>
-            <Button onClick={handleReset} variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent">
+            <Button
+              onClick={() => { setIsSubmitted(false); setFormData(initialForm); }}
+              variant="outline"
+              className="border-white/40 text-white hover:bg-white/10 hover:border-white bg-transparent"
+            >
               Yeni Teklif Al
             </Button>
           </motion.div>
@@ -125,13 +123,13 @@ export function QuoteCalculator() {
     <SectionWrapper id="teklif" className="py-24 lg:py-32 bg-[#1E5AA8]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
         <FadeIn className="text-center mb-12">
-          <span className="text-sm font-medium text-white/60 tracking-widest uppercase">
+          <span className="text-sm font-medium text-white/55 tracking-widest uppercase">
             Hızlı Teklif
           </span>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-white mt-3">
             Makina Kiralama Teklif Al
           </h2>
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
             İhtiyacınız olan iş makinasını seçin ve hızlıca teklif alın.
           </p>
         </FadeIn>
@@ -139,137 +137,99 @@ export function QuoteCalculator() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Form */}
           <div className="lg:col-span-2">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+            <Card className="bg-white/8 backdrop-blur-sm border-white/15">
               <CardContent className="p-6 lg:p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    {/* Machine Type */}
+                  <div className="grid sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label htmlFor="machineType" className="text-white">Makina Türü</Label>
-                      <Select
-                        value={formData.machineType}
-                        onValueChange={(value) => setFormData((prev) => ({ ...prev, machineType: value }))}
-                      >
-                        <SelectTrigger className="bg-white/10 border-white/30 text-white">
+                      <Label className="text-white text-sm font-medium">Makina Türü</Label>
+                      <Select value={formData.machineType} onValueChange={(v) => setFormData((p) => ({ ...p, machineType: v }))}>
+                        <SelectTrigger className="bg-white/10 border-white/25 text-white h-11">
                           <SelectValue placeholder="Seçiniz" />
                         </SelectTrigger>
                         <SelectContent>
-                          {machineTypes.map((type) => (
-                            <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
-                          ))}
+                          {machineTypes.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
-
-                    {/* Duration */}
                     <div className="space-y-2">
-                      <Label htmlFor="duration" className="text-white">Kiralama Süresi</Label>
-                      <Select
-                        value={formData.duration}
-                        onValueChange={(value) => setFormData((prev) => ({ ...prev, duration: value }))}
-                      >
-                        <SelectTrigger className="bg-white/10 border-white/30 text-white">
+                      <Label className="text-white text-sm font-medium">Kiralama Süresi</Label>
+                      <Select value={formData.duration} onValueChange={(v) => setFormData((p) => ({ ...p, duration: v }))}>
+                        <SelectTrigger className="bg-white/10 border-white/25 text-white h-11">
                           <SelectValue placeholder="Seçiniz" />
                         </SelectTrigger>
                         <SelectContent>
-                          {rentalDurations.map((d) => (
-                            <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>
-                          ))}
+                          {rentalDurations.map((d) => <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
 
-                  {/* Location */}
                   <div className="space-y-2">
-                    <Label className="text-white">Proje Lokasyonu</Label>
+                    <Label className="text-white text-sm font-medium">Proje Lokasyonu</Label>
                     <Input
                       placeholder="Şehir veya adres giriniz"
                       value={formData.location}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
-                      className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                      onChange={(e) => setFormData((p) => ({ ...p, location: e.target.value }))}
+                      className="bg-white/10 border-white/25 text-white placeholder:text-white/40 h-11"
                     />
                   </div>
 
-                  {/* Operator Toggle */}
-                  <div className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/20">
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/15">
                     <div className="flex items-center gap-3">
-                      <User className="h-5 w-5 text-white/80" />
+                      <User className="h-5 w-5 text-white/70" />
                       <div>
-                        <Label htmlFor="operator" className="text-white cursor-pointer">Operatör Gerekli mi?</Label>
-                        <p className="text-sm text-white/60">Tecrübeli operatör hizmeti</p>
+                        <Label className="text-white cursor-pointer">Operatör Gerekli mi?</Label>
+                        <p className="text-xs text-white/50 mt-0.5">Tecrübeli operatör hizmeti</p>
                       </div>
                     </div>
                     <Switch
-                      id="operator"
                       checked={formData.operatorRequired}
-                      onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, operatorRequired: checked }))}
+                      onCheckedChange={(v) => setFormData((p) => ({ ...p, operatorRequired: v }))}
                     />
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label className="text-white">İsim Soyisim *</Label>
-                      <Input
-                        placeholder="Adınız ve soyadınız"
-                        value={formData.name}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                        className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
-                        required
-                      />
+                      <Label className="text-white text-sm font-medium">İsim Soyisim *</Label>
+                      <Input placeholder="Adınız ve soyadınız" value={formData.name}
+                        onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                        className="bg-white/10 border-white/25 text-white placeholder:text-white/40 h-11" required />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-white">Telefon *</Label>
-                      <Input
-                        type="tel"
-                        placeholder="05XX XXX XX XX"
-                        value={formData.phone}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                        className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
-                        required
-                      />
+                      <Label className="text-white text-sm font-medium">Telefon *</Label>
+                      <Input type="tel" placeholder="05XX XXX XX XX" value={formData.phone}
+                        onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+                        className="bg-white/10 border-white/25 text-white placeholder:text-white/40 h-11" required />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-white">E-posta *</Label>
-                    <Input
-                      type="email"
-                      placeholder="ornek@email.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                      className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
-                      required
-                    />
+                    <Label className="text-white text-sm font-medium">E-posta *</Label>
+                    <Input type="email" placeholder="ornek@email.com" value={formData.email}
+                      onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                      className="bg-white/10 border-white/25 text-white placeholder:text-white/40 h-11" required />
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-white">Mesaj (Opsiyonel)</Label>
-                    <Textarea
-                      placeholder="Projeniz hakkında ek bilgiler..."
-                      value={formData.message}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
-                      className="bg-white/10 border-white/30 text-white placeholder:text-white/50 min-h-[100px]"
-                    />
+                    <Label className="text-white text-sm font-medium">Mesaj (Opsiyonel)</Label>
+                    <Textarea placeholder="Projeniz hakkında ek bilgiler..." value={formData.message}
+                      onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
+                      className="bg-white/10 border-white/25 text-white placeholder:text-white/40 min-h-[100px]" />
                   </div>
 
                   {error && (
-                    <p className="text-red-300 text-sm">{error}</p>
+                    <div className="bg-red-500/20 border border-red-400/30 text-red-200 text-sm p-3 rounded-lg">{error}</div>
                   )}
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full min-h-[52px] bg-white text-[#1E5AA8] hover:bg-white/90 font-medium text-base"
+                  <Button type="submit" size="lg"
+                    className="w-full min-h-[52px] bg-white text-[#1E5AA8] hover:bg-white/92 font-semibold text-base shadow-xl"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                          className="w-5 h-5 border-2 border-[#1E5AA8]/30 border-t-[#1E5AA8] rounded-full"
-                        />
+                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                          className="w-5 h-5 border-2 border-[#1E5AA8]/30 border-t-[#1E5AA8] rounded-full" />
                         Gönderiliyor...
                       </span>
                     ) : (
@@ -286,55 +246,45 @@ export function QuoteCalculator() {
 
           {/* Quote Preview */}
           <div className="lg:col-span-1">
-            <Card className="bg-white border-0 shadow-xl sticky top-24">
-              <CardHeader className="border-b border-border">
-                <CardTitle className="flex items-center gap-2 text-foreground">
+            <Card className="bg-white border-0 shadow-2xl sticky top-24">
+              <CardHeader className="border-b border-[#E8ECF0]">
+                <CardTitle className="flex items-center gap-2 text-[#2B2B2B]">
                   <Calculator className="h-5 w-5 text-[#1E5AA8]" />
-                  Tahmini Kiralama Bilgisi
+                  Tahmini Bilgiler
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 {formData.machineType && formData.duration ? (
                   <>
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                        <Truck className="h-5 w-5 text-[#1E5AA8]" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Makina Türü</p>
-                          <p className="font-medium text-foreground">{formData.machineType}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                        <Clock className="h-5 w-5 text-[#1E5AA8]" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Kiralama Süresi</p>
-                          <p className="font-medium text-foreground">{formData.duration}</p>
-                        </div>
-                      </div>
-                      {formData.operatorRequired && (
-                        <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                          <User className="h-5 w-5 text-[#1E5AA8]" />
+                    <div className="space-y-3">
+                      {[
+                        { icon: Truck, label: 'Makina Türü', value: formData.machineType },
+                        { icon: Clock, label: 'Kiralama Süresi', value: formData.duration },
+                        ...(formData.operatorRequired ? [{ icon: User, label: 'Operatör', value: 'Dahil' }] : []),
+                      ].map(({ icon: Icon, label, value }) => (
+                        <div key={label} className="flex items-center gap-3 p-3 bg-[#F6F8FB] rounded-xl">
+                          <Icon className="h-5 w-5 text-[#1E5AA8] shrink-0" />
                           <div>
-                            <p className="text-xs text-muted-foreground">Operatör</p>
-                            <p className="font-medium text-foreground">Dahil</p>
+                            <p className="text-xs text-[#2B2B2B]/50">{label}</p>
+                            <p className="font-semibold text-[#2B2B2B] text-sm">{value}</p>
                           </div>
                         </div>
-                      )}
+                      ))}
                     </div>
-                    <div className="border-t border-border pt-4">
-                      <p className="text-sm text-muted-foreground mb-1">Tahmini Fiyat</p>
-                      <p className="text-3xl font-bold text-[#1E5AA8]">
+                    <div className="border-t border-[#E8ECF0] pt-5">
+                      <p className="text-sm text-[#2B2B2B]/50 mb-1">Tahmini Fiyat</p>
+                      <p className="text-4xl font-bold text-[#1E5AA8]">
                         {estimatedPrice?.toLocaleString('tr-TR')} ₺
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">*KDV hariç tahmini fiyattır</p>
+                      <p className="text-xs text-[#2B2B2B]/40 mt-1.5">*KDV hariç tahmini fiyattır</p>
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-                      <Truck className="h-8 w-8 text-muted-foreground" />
+                  <div className="text-center py-10">
+                    <div className="w-16 h-16 rounded-full bg-[#EEF3FB] flex items-center justify-center mx-auto mb-4">
+                      <Truck className="h-8 w-8 text-[#1E5AA8]/50" />
                     </div>
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-[#2B2B2B]/50 text-sm leading-relaxed">
                       Tahmini fiyatı görmek için makina türü ve kiralama süresini seçin.
                     </p>
                   </div>
