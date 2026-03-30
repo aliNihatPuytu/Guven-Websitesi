@@ -1,24 +1,33 @@
 import type { Metadata, Viewport } from 'next';
-import { Tenor_Sans, Open_Sans } from 'next/font/google';
+import { Josefin_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { LanguageProvider } from '@/contexts/language-context';
 import './globals.css';
 
-// ─── Kurumsal Fontlar (Marka Kılavuzu) ────────────────────────────────────────
-// Birincil: Tenor Sans (başlıklar, logo metni)
-const tenorSans = Tenor_Sans({
-  weight: '400',
+// ─── Kurumsal Fontlar — Türkçe Karakter Destekli ──────────────────────────────
+//
+// BAŞLIK FONTU: Josefin Sans
+//   → Tenor Sans'ın görsel estetiğine (geometrik, zarif, ince) en yakın font
+//   → Tüm Türkçe karakterleri destekler: ı ğ ü ş ç ö İ Ğ Ü Ş Ç Ö
+//   → latin-ext subsetiyle yükleniyor
+//
+// GÖVDE FONTU: Plus Jakarta Sans
+//   → Century Gothic benzeri modern geometric sans-serif
+//   → Tüm Türkçe karakterleri destekler
+//   → latin-ext subsetiyle yükleniyor, çoklu ağırlık desteği
+//
+const josefinSans = Josefin_Sans({
   subsets: ['latin', 'latin-ext'],
   variable: '--font-heading',
   display: 'swap',
+  weight: ['300', '400', '600', '700'],
 });
 
-// İkincil: Open Sans → Century Gothic'e en yakın Google Font
-const openSans = Open_Sans({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin', 'latin-ext'],
   variable: '--font-sans',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 const siteUrl = 'https://www.guvenismakine.com';
@@ -30,7 +39,7 @@ export const metadata: Metadata = {
     template: '%s | Güven İş ve İstif Makinaları',
   },
   description:
-    '1978\'den bu yana İstanbul Ümraniye\'de forklift, ekskavatör, mini ekskavatör ve istif makinesi kiralama, satış ve servis hizmetleri. 45+ yıllık tecrübe, geniş makine filosu, hızlı teslimat.',
+    "1978'den bu yana İstanbul Ümraniye'de forklift, ekskavatör, mini ekskavatör ve istif makinesi kiralama, satış ve servis hizmetleri. 45+ yıllık tecrübe, geniş makine filosu, hızlı teslimat.",
   keywords: [
     'forklift kiralama istanbul',
     'ekskavatör kiralama istanbul',
@@ -101,7 +110,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" className={`${tenorSans.variable} ${openSans.variable}`}>
+    <html lang="tr" className={`${josefinSans.variable} ${plusJakartaSans.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -131,7 +140,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               openingHoursSpecification: [
                 {
                   '@type': 'OpeningHoursSpecification',
-                  dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                   opens: '08:00',
                   closes: '18:00',
                 },

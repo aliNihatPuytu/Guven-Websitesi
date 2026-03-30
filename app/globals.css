@@ -27,12 +27,19 @@
 }
 
 @theme inline {
-  /* Marka Kılavuzu Fontları:
-     - Tenor Sans: başlıklar, logolar, vurgu metinleri
-     - Open Sans: gövde metni (Century Gothic'e en yakın Google Font alternatifi)
-     Her iki font da latin-ext subsetiyle yükleniyor → Türkçe karakterler (ş, ğ, ı, ö, ü, ç) düzgün görünür */
-  --font-sans: var(--font-sans), 'Open Sans', 'Trebuchet MS', system-ui, sans-serif;
-  --font-heading: var(--font-heading), 'Tenor Sans', Georgia, serif;
+  /*
+   * BAŞLIK FONTU: Josefin Sans
+   *   - Tenor Sans'ın geometrik, zarif estetiğine en yakın alternatif
+   *   - Tüm Türkçe karakterleri destekler: ı İ ğ Ğ ü Ü ş Ş ç Ç ö Ö
+   *   - latin-ext subsetiyle yükleniyor
+   *
+   * GÖVDE FONTU: Plus Jakarta Sans
+   *   - Century Gothic benzeri modern geometric sans-serif
+   *   - Tüm Türkçe karakterleri destekler
+   *   - latin-ext subsetiyle yükleniyor
+   */
+  --font-heading: var(--font-heading), 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+  --font-sans: var(--font-sans), 'Plus Jakarta Sans', 'Century Gothic', system-ui, sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -65,18 +72,21 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Latin-ext + Türkçe karakter desteği için font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: 'kern' 1, 'liga' 1;
+    /* Türkçe karakterlerin doğru render edilmesi için */
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
   }
   .font-heading {
     font-family: var(--font-heading);
+    /* Josefin Sans için letter-spacing biraz artırmak daha şık durur */
+    letter-spacing: 0.01em;
   }
-  /* Ensure Turkish special chars don't fallback to system font */
+  /* Türkçe dil etiketi için özel font rendering */
   :lang(tr) {
-    font-feature-settings: 'kern' 1;
+    font-feature-settings: 'kern' 1, 'liga' 1;
   }
   p, li, span, a {
     line-height: 1.65;
