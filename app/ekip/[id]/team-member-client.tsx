@@ -57,7 +57,7 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
           {/* Back */}
           <FadeIn className="mb-12">
-            <Button asChild variant="outline" className="border-[#2B2B2B]/20 text-[#2B2B2B] hover:bg-[#1E5AA8] hover:text-white hover:border-[#1E5AA8] group">
+            <Button asChild variant="outline" className="border-[#2B2B2B]/20 text-[#0B1929] hover:bg-[#1E5AA8] hover:text-white hover:border-[#1E5AA8] group">
               <Link href="/ekip" className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Ekibe Dön
@@ -87,7 +87,7 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
 
               {/* Contact Card */}
               <div className="bg-[#F6F8FB] rounded-2xl p-6 space-y-3 border border-[#E8ECF0]">
-                <h3 className="font-heading text-lg text-[#2B2B2B] border-b border-[#E8ECF0] pb-3 mb-1">
+                <h3 className="font-heading text-lg text-[#0B1929] border-b border-[#E8ECF0] pb-3 mb-1">
                   İletişim
                 </h3>
 
@@ -96,8 +96,8 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                     <Mail className="w-5 h-5 text-white" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs text-[#2B2B2B]/50 mb-0.5">E-posta</p>
-                    <p className="text-sm text-[#2B2B2B] group-hover/c:text-[#1E5AA8] transition-colors truncate font-medium">{member.email}</p>
+                    <p className="text-xs text-[#0B1929]/50 mb-0.5">E-posta</p>
+                    <p className="text-sm text-[#0B1929] group-hover/c:text-[#1E5AA8] transition-colors truncate font-medium">{member.email}</p>
                   </div>
                 </a>
 
@@ -106,8 +106,8 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                     <Phone className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-xs text-[#2B2B2B]/50 mb-0.5">Telefon</p>
-                    <p className="text-sm font-medium text-[#2B2B2B] group-hover/c:text-[#1E5AA8] transition-colors">{member.phone}</p>
+                    <p className="text-xs text-[#0B1929]/50 mb-0.5">Telefon</p>
+                    <p className="text-sm font-medium text-[#0B1929] group-hover/c:text-[#1E5AA8] transition-colors">{member.phone}</p>
                   </div>
                 </a>
 
@@ -117,8 +117,8 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                       <Linkedin className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-xs text-[#2B2B2B]/50 mb-0.5">LinkedIn</p>
-                      <p className="text-sm font-medium text-[#2B2B2B] group-hover/c:text-[#1E5AA8] transition-colors">Profili Görüntüle →</p>
+                      <p className="text-xs text-[#0B1929]/50 mb-0.5">LinkedIn</p>
+                      <p className="text-sm font-medium text-[#0B1929] group-hover/c:text-[#1E5AA8] transition-colors">Profili Görüntüle →</p>
                     </div>
                   </a>
                 )}
@@ -139,22 +139,22 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                   <div className="w-1 h-12 bg-[#1E5AA8] rounded-full shrink-0" />
                   <div>
                     <p className="text-xs font-semibold text-[#1E5AA8] tracking-widest uppercase">Güven İş ve İstif Makinaları</p>
-                    <h2 className="font-heading text-3xl md:text-4xl text-[#2B2B2B]">{member.name}</h2>
+                    <h2 className="font-heading text-3xl md:text-4xl text-[#0B1929]">{member.name}</h2>
                   </div>
                 </div>
                 <div className="h-px bg-gradient-to-r from-[#1E5AA8] via-[#E8ECF0] to-transparent" />
               </div>
 
               <div>
-                <h3 className="font-heading text-xl text-[#2B2B2B] mb-5 flex items-center gap-3">
+                <h3 className="font-heading text-xl text-[#0B1929] mb-5 flex items-center gap-3">
                   <span className="w-6 h-0.5 bg-[#1E5AA8] inline-block shrink-0" />
                   Hakkında
                 </h3>
-                <p className="text-lg text-[#2B2B2B]/70 leading-relaxed">{member.bio}</p>
+                <p className="text-lg text-[#0B1929]/70 leading-relaxed">{member.bio}</p>
               </div>
 
               <div>
-                <h3 className="font-heading text-xl text-[#2B2B2B] mb-6 flex items-center gap-3">
+                <h3 className="font-heading text-xl text-[#0B1929] mb-6 flex items-center gap-3">
                   <span className="w-6 h-0.5 bg-[#1E5AA8] inline-block shrink-0" />
                   Uzmanlık Alanları
                 </h3>
@@ -169,7 +169,7 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                       className="flex items-center gap-3 p-4 bg-[#F6F8FB] rounded-xl border border-[#E8ECF0] hover:border-[#1E5AA8]/20 transition-colors"
                     >
                       <CheckCircle2 className="w-5 h-5 text-[#1E5AA8] shrink-0" />
-                      <span className="font-medium text-[#2B2B2B] text-sm">{item}</span>
+                      <span className="font-medium text-[#0B1929] text-sm">{item}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -183,7 +183,7 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
       <SectionWrapper className="py-16 bg-[#F6F8FB] border-t border-[#E8ECF0]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
           <FadeIn className="mb-10">
-            <h3 className="font-heading text-2xl text-[#2B2B2B]">Diğer Ekip Üyeleri</h3>
+            <h3 className="font-heading text-2xl text-[#0B1929]">Diğer Ekip Üyeleri</h3>
           </FadeIn>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
             {otherMembers.map((m, index) => (
@@ -202,8 +202,8 @@ export function TeamMemberClient({ member, otherMembers }: Props) {
                     <Image src={m.image} alt={m.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-heading font-bold text-[#2B2B2B] group-hover:text-[#1E5AA8] transition-colors truncate">{m.name}</p>
-                    <p className="text-sm text-[#2B2B2B]/55 truncate">{m.title}</p>
+                    <p className="font-heading font-bold text-[#0B1929] group-hover:text-[#1E5AA8] transition-colors truncate">{m.name}</p>
+                    <p className="text-sm text-[#0B1929]/60 truncate">{m.title}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-[#1E5AA8] shrink-0 group-hover:translate-x-1 transition-transform" />
                 </Link>

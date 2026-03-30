@@ -1,72 +1,77 @@
 import type { Metadata, Viewport } from 'next';
 import { Tenor_Sans, Open_Sans } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+import { LanguageProvider } from '@/contexts/language-context';
 import './globals.css';
 
+// ─── Kurumsal Fontlar (Marka Kılavuzu) ────────────────────────────────────────
+// Birincil: Tenor Sans (başlıklar, logo metni)
 const tenorSans = Tenor_Sans({
   weight: '400',
-  subsets: ['latin'],
-  variable: '--font-tenor-sans',
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-heading',
   display: 'swap',
 });
 
+// İkincil: Open Sans → Century Gothic'e en yakın Google Font
 const openSans = Open_Sans({
   subsets: ['latin', 'latin-ext'],
-  variable: '--font-inter',
+  variable: '--font-sans',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
 });
 
+const siteUrl = 'https://www.guvenismakine.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: 'Güven İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
+    default: 'Güven İş ve İstif Makinaları | Forklift & Ekskavatör Kiralama İstanbul',
     template: '%s | Güven İş ve İstif Makinaları',
   },
-  description: '1978\'den bu yana İstanbul\'da iş ve istif makineleri satış, kiralama, yedek parça ve teknik destek hizmetleri. Ekskavatör, forklift, istif makinesi ve daha fazlası. Ümraniye / İstanbul.',
+  description:
+    '1978\'den bu yana İstanbul Ümraniye\'de forklift, ekskavatör, mini ekskavatör ve istif makinesi kiralama, satış ve servis hizmetleri. 45+ yıllık tecrübe, geniş makine filosu, hızlı teslimat.',
   keywords: [
+    'forklift kiralama istanbul',
+    'ekskavatör kiralama istanbul',
     'iş makinası kiralama',
     'istif makinası kiralama',
-    'forklift kiralama',
-    'ekskavatör kiralama',
+    'mini ekskavatör kiralama',
+    'yükleyici kiralama',
     'yedek parça iş makinaları',
-    'teknik destek iş makinaları',
     'güven iş makinaları',
-    'güven istif makinaları',
     'ümraniye makina kiralama',
     'istanbul iş makinaları',
-    'makina satışı istanbul',
-    'iş makinası satışı',
     'reach truck kiralama',
-    'mini ekskavatör kiralama',
+    'forklift satış',
+    'makina satışı istanbul',
     '1978 makina firması',
   ],
-  authors: [{ name: 'Güven İş ve İstif Makinaları', url: 'https://guvenismakina.com' }],
+  authors: [{ name: 'Güven İş ve İstif Makinaları', url: siteUrl }],
   creator: 'Güven İş ve İstif Makinaları',
   publisher: 'Güven İş ve İstif Makinaları',
-  metadataBase: new URL('https://guvenismakina.com'),
-  alternates: {
-    canonical: '/',
-  },
+  alternates: { canonical: '/' },
   openGraph: {
-    title: 'Güven İş ve İstif Makinaları | 1978\'den Beri Güvenilir Çözümler',
-    description: '1978\'den bu yana iş ve istif makineleri satış, kiralama, yedek parça ve teknik destek. İstanbul Ümraniye.',
-    url: 'https://guvenismakina.com',
+    title: 'Güven İş ve İstif Makinaları | Forklift & Ekskavatör Kiralama İstanbul',
+    description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama, satış ve teknik servis. 1978'den bu yana 45+ yıllık tecrübeyle güvenilir çözüm ortağınız.",
+    url: siteUrl,
     siteName: 'Güven İş ve İstif Makinaları',
     type: 'website',
     locale: 'tr_TR',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Güven İş ve İstif Makinaları - 1978\'den Beri Güvenilir Çözümler',
+        alt: 'Güven İş ve İstif Makinaları — Forklift & Ekskavatör Kiralama',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Güven İş ve İstif Makinaları',
-    description: '1978\'den beri iş ve istif makineleri satış, kiralama, yedek parça ve teknik destek.',
-    images: ['/og-image.jpg'],
+    description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama ve satış.",
+    images: ['/images/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -74,17 +79,16 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/images/logo-blue.png', type: 'image/png' },
+      { url: '/images/logo-blue.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.ico' },
     ],
-    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    apple: '/images/logo-blue.png',
     shortcut: '/favicon.ico',
   },
 };
@@ -95,15 +99,52 @@ export const viewport: Viewport = {
   themeColor: '#1E5AA8',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tr" className={`${tenorSans.variable} ${openSans.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              name: 'Güven İş ve İstif Makinaları',
+              description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama, satış ve teknik servis. 1978'den bu yana.",
+              url: siteUrl,
+              telephone: ['+902163141294', '+905322975813'],
+              email: 'info@guvenismakine.com',
+              foundingDate: '1978',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Esenşehir Mahallesi, Gündeş Sokak No:14',
+                addressLocality: 'Ümraniye',
+                addressRegion: 'İstanbul',
+                postalCode: '34776',
+                addressCountry: 'TR',
+              },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: 41.01789,
+                longitude: 29.10588,
+              },
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                  opens: '08:00',
+                  closes: '18:00',
+                },
+              ],
+              sameAs: ['https://www.instagram.com/guvenismakine'],
+            }),
+          }}
+        />
+      </head>
       <body className="font-sans antialiased bg-background text-foreground">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

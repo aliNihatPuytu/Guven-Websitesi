@@ -43,7 +43,7 @@ export function ProjectGallery() {
             <span className="text-sm font-medium text-[#1E5AA8] tracking-widest uppercase">
               Referanslarımız
             </span>
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#2B2B2B] mt-3">
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#0B1929] mt-3">
               Tamamladığımız Projeler
             </h2>
           </div>
@@ -88,14 +88,14 @@ export function ProjectGallery() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-1.5 text-sm text-[#2B2B2B]/50 mb-2">
+                  <div className="flex items-center gap-1.5 text-sm text-[#0B1929]/65 mb-2">
                     <MapPin className="h-4 w-4 text-[#1E5AA8]" />
                     {project.location}
                   </div>
-                  <h3 className="font-heading text-xl text-[#2B2B2B] mb-2 group-hover:text-[#1E5AA8] transition-colors">
+                  <h3 className="font-heading text-xl text-[#0B1929] mb-2 group-hover:text-[#1E5AA8] transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-[#2B2B2B]/55 text-sm leading-relaxed line-clamp-2 mb-4">
+                  <p className="text-[#0B1929]/70 text-sm leading-relaxed line-clamp-2 mb-4">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-1.5">

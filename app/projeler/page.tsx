@@ -73,11 +73,11 @@ export default function ProjectsPage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center gap-1.5 text-sm text-[#2B2B2B]/50 mb-2">
+                    <div className="flex items-center gap-1.5 text-sm text-[#0B1929]/50 mb-2">
                       <MapPin className="h-4 w-4 text-[#1E5AA8]" />{project.location}
                     </div>
-                    <h3 className="font-heading text-xl text-[#2B2B2B] mb-2 group-hover:text-[#1E5AA8] transition-colors">{project.title}</h3>
-                    <p className="text-[#2B2B2B]/55 text-sm leading-relaxed line-clamp-2 mb-4">{project.description}</p>
+                    <h3 className="font-heading text-xl text-[#0B1929] mb-2 group-hover:text-[#1E5AA8] transition-colors">{project.title}</h3>
+                    <p className="text-[#0B1929]/60 text-sm leading-relaxed line-clamp-2 mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {project.machines.map((m) => (
                         <span key={m} className="px-2.5 py-1 text-xs bg-[#EEF3FB] text-[#1E5AA8] rounded-md font-medium">{m}</span>

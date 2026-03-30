@@ -48,7 +48,7 @@ export function WhyChooseUs() {
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-white mt-3">
             Bizi Tercih Etmeniz İçin Nedenler
           </h2>
-          <p className="mt-4 text-lg text-white/50 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-white/65 max-w-2xl mx-auto">
             Sektördeki uzun yıllara dayanan deneyimimiz ve güvenilir hizmet anlayışımızla fark yaratıyoruz.
           </p>
         </FadeIn>
@@ -68,7 +68,7 @@ export function WhyChooseUs() {
                 <feature.icon className="w-6 h-6 text-white" />
               </div>
               <h3 className="font-heading text-xl text-white mb-3">{feature.title}</h3>
-              <p className="text-white/55 leading-relaxed text-sm">{feature.description}</p>
+              <p className="text-white/70 leading-relaxed text-sm">{feature.description}</p>
             </motion.div>
           ))}
         </div>

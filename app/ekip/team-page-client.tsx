@@ -53,10 +53,10 @@ export function TeamPageClient() {
             <span className="text-sm font-medium text-[#1E5AA8] tracking-widest uppercase">
               Kadromuz
             </span>
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#2B2B2B] mt-3">
+            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#0B1929] mt-3">
               Uzman Ekibimiz
             </h2>
-            <p className="mt-4 text-lg text-[#2B2B2B]/60 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-[#0B1929]/65 max-w-2xl mx-auto">
               Deneyim ve uzmanlığı bir araya getiren ekibimiz, her projede en yüksek kaliteyi sağlamak için çalışmaktadır.
             </p>
           </FadeIn>
@@ -95,7 +95,7 @@ export function TeamPageClient() {
 
                   {/* Info */}
                   <div>
-                    <h3 className="font-heading text-xl text-[#2B2B2B] group-hover:text-[#1E5AA8] transition-colors">
+                    <h3 className="font-heading text-xl text-[#0B1929] group-hover:text-[#1E5AA8] transition-colors">
                       {member.name}
                     </h3>
                     <p className="text-sm font-medium text-[#1E5AA8]/75 mt-1 mb-3">

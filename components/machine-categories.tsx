@@ -16,10 +16,10 @@ export function MachineCategories() {
           <span className="text-sm font-medium text-[#1E5AA8] tracking-widest uppercase">
             Makine Kategorileri
           </span>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#2B2B2B] mt-3">
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#0B1929] mt-3">
             Geniş Makine Filomuz
           </h2>
-          <p className="mt-4 text-lg text-[#2B2B2B]/65 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-[#0B1929]/65 max-w-2xl mx-auto">
             Her türlü inşaat ve lojistik projeniz için doğru ekipmanı sunuyoruz.
           </p>
         </FadeIn>
@@ -54,10 +54,10 @@ export function MachineCategories() {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="font-heading text-xl text-[#2B2B2B] mb-2 group-hover:text-[#1E5AA8] transition-colors duration-200">
+                <h3 className="font-heading text-xl text-[#0B1929] mb-2 group-hover:text-[#1E5AA8] transition-colors duration-200">
                   {machine.title}
                 </h3>
-                <p className="text-[#2B2B2B]/60 text-sm leading-relaxed mb-5 line-clamp-2">
+                <p className="text-[#0B1929]/65 text-sm leading-relaxed mb-5 line-clamp-2">
                   {machine.shortDesc}
                 </p>
 
