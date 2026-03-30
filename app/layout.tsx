@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   keywords: [
     'forklift kiralama istanbul',
     'ekskavatör kiralama istanbul',
-    'iş makinası kiralama',
-    'istif makinası kiralama',
+    'iş makinesi kiralama',
+    'istif makinesi kiralama',
     'mini ekskavatör kiralama',
     'yükleyici kiralama',
     'yedek parça iş makinaları',
@@ -85,10 +85,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/logo-blue.png', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon.ico' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/images/logo-blue.png', type: 'image/png', sizes: '192x192' },
     ],
-    apple: '/images/logo-blue.png',
+    apple: { url: '/apple-icon.png', sizes: '180x180' },
     shortcut: '/favicon.ico',
   },
 };

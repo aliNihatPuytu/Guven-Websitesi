@@ -58,7 +58,7 @@ export default async function MachinePage({ params }: PageProps) {
             <Button asChild variant="outline" className="border-[#E8ECF0] text-[#0B1929] hover:bg-[#1E5AA8] hover:text-white hover:border-[#1E5AA8] group">
               <Link href="/#makinalar" className="flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                Tüm Makinalar
+                Tüm Makineler
               </Link>
             </Button>
           </div>
@@ -187,7 +187,7 @@ export default async function MachinePage({ params }: PageProps) {
       {/* Other Machines */}
       <section className="py-16 bg-[#F6F8FB] border-t border-[#E8ECF0]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
-          <h3 className="font-heading text-2xl text-[#0B1929] mb-8">Diğer Makinalar</h3>
+          <h3 className="font-heading text-2xl text-[#0B1929] mb-8">Diğer Makineler</h3>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {otherMachines.map((m) => (
               <Link

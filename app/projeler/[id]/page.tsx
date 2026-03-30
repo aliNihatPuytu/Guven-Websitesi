@@ -187,7 +187,7 @@ export default async function ProjectDetailPage({ params }: ProjectParams) {
                 <CardContent className="p-6">
                   <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
                     <Truck className="h-5 w-5 text-[#1E5AA8]" />
-                    Kullanılan Makinalar
+                    Kullanılan Makineler
                   </h3>
                   <div className="space-y-4">
                     {project.machines.map((machine) => (

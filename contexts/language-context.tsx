@@ -39,7 +39,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'services.title': 'Kapsamlı Makina Çözümleri',
     'services.subtitle': '45 yılı aşkın tecrübemizle iş ve istif makineleri alanında kapsamlı çözümler sunuyoruz.',
     'services.rental.title': 'İş ve İstif Makinesi Kiralama',
-    'services.rental.desc': 'Geniş makine filomuzla kısa ve uzun süreli kiralama hizmetleri sunuyoruz. Tüm makinalarımız düzenli bakımlı ve sigortalıdır.',
+    'services.rental.desc': 'Geniş makine filomuzla kısa ve uzun süreli kiralama hizmetleri sunuyoruz. Tüm makinelerimiz düzenli bakımlı ve sigortalıdır.',
     'services.sales.title': 'Makina Satışı',
     'services.sales.desc': 'Yeni ve ikinci el iş ve istif makineleri satışı yapıyoruz. Güvenilir markalardan kaliteli makineler, garanti hizmetiyle.',
     'services.parts.title': 'Yedek Parça',

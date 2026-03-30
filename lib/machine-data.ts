@@ -59,7 +59,7 @@ export const machines: Machine[] = [
     id: 'istif-makineleri',
     title: 'İstif Makineleri',
     shortDesc: 'Dar alanlarda yüksek verimlilikle çalışan istif makineleri ve reach truck\'lar.',
-    fullDesc: 'İstif makinelerimiz, dar depo alanlarında maksimum verimlilik sağlar. Elektrikli istif makinelerinden reach truck\'lara kadar geniş yelpazede ürünlerimiz, yüksek raf sistemleriyle uyumlu çalışarak depolama kapasiteniizi artırır. Güncel satılık ilanlarımız için sahibinden.com mağazamızı inceleyin.',
+    fullDesc: 'İstif makinelerimiz, dar depo alanlarında maksimum verimlilik sağlar. Elektrikli istif makinelerinden reach truck\'lara kadar geniş yelpazede ürünlerimiz, yüksek raf sistemleriyle uyumlu çalışarak depolama kapasitenizi artırır. Güncel satılık ilanlarımız için sahibinden.com mağazamızı inceleyin.',
     image: '/images/machines/loader.jpg',
     specs: [
       { label: 'Taşıma Kapasitesi', value: '1.0 - 3.0 ton' },

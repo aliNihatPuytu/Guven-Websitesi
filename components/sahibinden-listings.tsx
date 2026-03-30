@@ -75,7 +75,7 @@ const featuredListings = [
   },
   {
     id: 6,
-    title: 'Günlük / Haftalık İş Makinası Kiralama',
+    title: 'Günlük / Haftalık İş Makinesi Kiralama',
     category: 'Tüm Kategoriler',
     condition: 'Kiralık',
     year: '—',
