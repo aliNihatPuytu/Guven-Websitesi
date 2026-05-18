@@ -18,6 +18,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.services': 'Hizmetler',
     'nav.machines': 'Makineler',
     'nav.projects': 'Projeler',
+    'nav.references': 'Referanslar',
     'nav.team': 'Ekibimiz',
     'nav.about': 'Hakkımızda',
     'nav.contact': 'İletişim',
@@ -103,6 +104,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'projects.title': 'Tamamladığımız Projeler',
     'projects.viewAll': 'Tüm Projeleri Gör',
 
+    // REFERENCES
+    'references.label': 'Referanslarımız',
+    'references.title': '15 Yılı Aşkın Süredir Bizi Tercih Ettiler',
+    'references.subtitle': 'Türkiye’nin önde gelen firmaları projelerinde Güven İş ve İstif Makineleri’nin güvenilir çözüm ortaklığını tercih etti.',
+    'references.viewAll': 'Tüm Referanslar',
+
     // ABOUT
     'about.label': 'Hakkımızda',
     'about.title': "1978'den Bu Yana Güvenle Hizmet",
@@ -166,6 +173,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.services': 'Services',
     'nav.machines': 'Machines',
     'nav.projects': 'Projects',
+    'nav.references': 'References',
     'nav.team': 'Our Team',
     'nav.about': 'About Us',
     'nav.contact': 'Contact',
@@ -250,6 +258,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'projects.label': 'Our Projects',
     'projects.title': 'Completed Projects',
     'projects.viewAll': 'View All Projects',
+
+    // REFERENCES
+    'references.label': 'Our References',
+    'references.title': 'Trusted by Industry Leaders for Over 15 Years',
+    'references.subtitle': 'Leading construction, logistics and industrial companies in Turkey have chosen Güven Material Handling Equipment as their trusted solution partner.',
+    'references.viewAll': 'View All References',
 
     // ABOUT
     'about.label': 'About Us',

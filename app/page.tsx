@@ -8,7 +8,7 @@ import { Services } from '@/components/services';
 import { MachineCategories } from '@/components/machine-categories';
 import { QuoteCalculator } from '@/components/quote-calculator';
 import { WhyChooseUs } from '@/components/why-choose-us';
-import { ProjectGallery } from '@/components/project-gallery';
+import { ReferencesMarquee } from '@/components/references-marquee';
 import { AboutCompany } from '@/components/about-company';
 import { CTASection } from '@/components/cta-section';
 import { ContactSection } from '@/components/contact-section';
@@ -28,7 +28,7 @@ export default function Home() {
           <MachineCategories />
           <QuoteCalculator />
           <WhyChooseUs />
-          <ProjectGallery />
+          <ReferencesMarquee />
           <AboutCompany />
           <CTASection />
           <ContactSection />

@@ -96,3 +96,26 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* ─── Referanslar – sonsuz şerit animasyonu ───────────────────────────────── */
+@keyframes referanslar-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* tek kopyalık mesafe; dizi 2 kez basıldığı için kesintisiz döngü */
+}
+
+.referanslar-track {
+  display: flex;
+  width: max-content;
+  animation: referanslar-scroll 40s linear infinite;
+  will-change: transform;
+}
+
+.referanslar-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .referanslar-track {
+    animation: none;
+  }
+}

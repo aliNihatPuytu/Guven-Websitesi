@@ -17,7 +17,7 @@ export function Header() {
     { name: t('nav.home'), href: '/' },
     { name: t('nav.services'), href: '/#hizmetler' },
     { name: t('nav.machines'), href: '/#makineler' },
-    { name: t('nav.projects'), href: '/projeler' },
+    { name: t('nav.references'), href: '/referanslar' },
     { name: t('nav.about'), href: '/#hakkimizda' },
     { name: t('nav.contact'), href: '/#iletisim' },
   ];

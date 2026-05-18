@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80" width="220" height="80">
+  <!-- PLACEHOLDER LOGO – replace with the real reference brand asset -->
+  <polygon points="34,14 54,26 54,52 34,64 14,52 14,26" fill="#5A6B7D"/>
+            <polygon points="34,26 46,33 46,47 34,54 22,47 22,33" fill="white" opacity="0.85"/>
+  <text x="72" y="44" font-family="'Plus Jakarta Sans','Segoe UI',sans-serif"
+        font-size="20" font-weight="700" fill="#3A4754" letter-spacing="1">OMEGA</text>
+  <text x="72" y="62" font-family="'Plus Jakarta Sans','Segoe UI',sans-serif"
+        font-size="9" font-weight="500" fill="#3A4754" letter-spacing="3" opacity="0.65">COMPANY</text>
+</svg>
