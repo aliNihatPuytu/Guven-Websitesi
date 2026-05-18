@@ -11,7 +11,7 @@ export function MachineDetailClient({ machine }: { machine: Machine }) {
         animate={{ opacity: 1, y: 0 }}
         className="inline-block text-xs font-semibold text-white/70 tracking-widest uppercase bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full mb-4"
       >
-        Güven İş ve İstif Makinaları
+        Güven İş ve İstif Makineleri
       </motion.span>
       <motion.h1
         initial={{ opacity: 0, y: 20 }}

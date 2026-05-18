@@ -16,10 +16,8 @@ export function Header() {
   const navItems = [
     { name: t('nav.home'), href: '/' },
     { name: t('nav.services'), href: '/#hizmetler' },
-    { name: t('nav.machines'), href: '/#makinalar' },
-    { name: t('nav.listings'), href: '/#sahibinden' },
+    { name: t('nav.machines'), href: '/#makineler' },
     { name: t('nav.projects'), href: '/projeler' },
-    { name: t('nav.team'), href: '/ekip' },
     { name: t('nav.about'), href: '/#hakkimizda' },
     { name: t('nav.contact'), href: '/#iletisim' },
   ];
@@ -64,8 +62,8 @@ export function Header() {
             <Link href="/" className="relative z-10 flex-shrink-0">
               <div className="relative h-11 w-44">
                 <Image
-                  src={isScrolled ? '/images/logo-blue.png' : '/images/logo-white.png'}
-                  alt="Güven İş ve İstif Makinaları"
+                  src={isScrolled ? '/images/guven-blue.png' : '/images/guven-white.png'}
+                  alt="Güven İş ve İstif Makineleri"
                   fill
                   className="object-contain transition-all duration-300"
                   priority
@@ -125,7 +123,7 @@ export function Header() {
               <div className="flex items-center justify-between px-6 py-5">
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
                   <div className="relative h-10 w-44">
-                    <Image src="/images/logo-white.png" alt="Güven İş ve İstif Makinaları" fill className="object-contain" />
+                    <Image src="/images/guven-white.png" alt="Güven İş ve İstif Makineleri" fill className="object-contain" />
                   </div>
                 </Link>
                 <div className="flex items-center gap-3">

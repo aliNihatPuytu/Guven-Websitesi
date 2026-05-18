@@ -34,8 +34,8 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           >
             <div className="relative w-72 h-24 sm:w-96 sm:h-28">
               <Image
-                src="/images/logo-white.png"
-                alt="Güven İş ve İstif Makinaları"
+                src="/images/guven-white.png"
+                alt="Güven İş ve İstif Makineleri"
                 fill
                 className="object-contain"
                 priority

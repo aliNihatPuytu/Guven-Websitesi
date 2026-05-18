@@ -15,12 +15,12 @@ import { SectionWrapper } from '@/components/ui/section-wrapper';
 import { useLanguage } from '@/contexts/language-context';
 
 const machineTypes = [
-  { value: 'Ekskavatör', labelTr: 'Ekskavatör', labelEn: 'Excavator', basePrice: 5000, icon: '🚜' },
-  { value: 'Mini Ekskavatör', labelTr: 'Mini Ekskavatör', labelEn: 'Mini Excavator', basePrice: 2500, icon: '⛏️' },
-  { value: 'Forklift', labelTr: 'Forklift', labelEn: 'Forklift', basePrice: 2000, icon: '🏗️' },
-  { value: 'İstif Makinesi', labelTr: 'İstif Makinesi', labelEn: 'Stacker', basePrice: 1800, icon: '📦' },
-  { value: 'Yükleyici', labelTr: 'Yükleyici', labelEn: 'Loader', basePrice: 4000, icon: '🚧' },
-  { value: 'Diğer', labelTr: 'Diğer', labelEn: 'Other', basePrice: 3000, icon: '⚙️' },
+  { value: 'Ekskavatör', labelTr: 'Ekskavatör', labelEn: 'Excavator', basePrice: 5000},
+  { value: 'Mini Ekskavatör', labelTr: 'Mini Ekskavatör', labelEn: 'Mini Excavator', basePrice: 2500},
+  { value: 'Forklift', labelTr: 'Forklift', labelEn: 'Forklift', basePrice: 2000},
+  { value: 'İstif Makinesi', labelTr: 'İstif Makinesi', labelEn: 'Stacker', basePrice: 1800},
+  { value: 'Yükleyici', labelTr: 'Yükleyici', labelEn: 'Loader', basePrice: 4000},
+  { value: 'Diğer', labelTr: 'Diğer', labelEn: 'Other', basePrice: 3000},
 ];
 
 const rentalDurations = [
@@ -37,7 +37,6 @@ const initialForm = {
 };
 
 const features = [
-  { icon: Shield, labelTr: 'Sigortalı Makine', labelEn: 'Insured Machine' },
   { icon: Wrench, labelTr: 'Periyodik Bakım', labelEn: 'Periodic Maintenance' },
   { icon: Zap, labelTr: 'Hızlı Teslimat', labelEn: 'Fast Delivery' },
 ];

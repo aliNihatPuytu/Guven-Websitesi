@@ -15,7 +15,7 @@ export function Hero() {
   const stats = [
     { value: '45+', labelKey: 'hero.stat.experience' },
     { value: '500+', labelKey: 'hero.stat.projects' },
-    { value: '100+', labelKey: 'hero.stat.fleet' },
+    { value: '30+', labelKey: 'hero.stat.fleet' },
   ];
 
   const scrollToNext = () => {
@@ -97,11 +97,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35 }}
-          className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line"
         >
           {t('hero.subtitle')}
         </motion.p>
-
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -6,7 +6,6 @@ import { Header } from '@/components/header';
 import { Hero } from '@/components/hero';
 import { Services } from '@/components/services';
 import { MachineCategories } from '@/components/machine-categories';
-import { SahibindenListings } from '@/components/sahibinden-listings';
 import { QuoteCalculator } from '@/components/quote-calculator';
 import { WhyChooseUs } from '@/components/why-choose-us';
 import { ProjectGallery } from '@/components/project-gallery';
@@ -27,7 +26,6 @@ export default function Home() {
           <Hero />
           <Services />
           <MachineCategories />
-          <SahibindenListings />
           <QuoteCalculator />
           <WhyChooseUs />
           <ProjectGallery />

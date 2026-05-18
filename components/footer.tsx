@@ -5,6 +5,20 @@ import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 
+// ─── Sahibinden gerçek logosu — Clearbit Logo API üzerinden ─────────────────
+function SahibindenIcon() {
+  return (
+    <Image
+      src="https://logo.clearbit.com/sahibinden.com"
+      alt="Sahibinden"
+      width={16}
+      height={16}
+      className="w-4 h-4 object-contain"
+      unoptimized
+    />
+  );
+}
+
 // ─── Sosyal medya & platform linkleri ────────────────────────────────────────
 const socialLinks = [
   {
@@ -29,11 +43,7 @@ const socialLinks = [
     name: 'Sahibinden',
     label: 'Sahibinden.com',
     href: 'https://guvenismakine.sahibinden.com/',
-    icon: (
-      <svg viewBox="0 0 40 40" className="w-4 h-4" fill="currentColor">
-        <path d="M20 2C10.059 2 2 10.059 2 20s8.059 18 18 18 18-8.059 18-18S29.941 2 20 2zm0 4c7.732 0 14 6.268 14 14S27.732 34 20 34 6 27.732 6 20 12.268 6 20 6zm-1 5v3h-5v2h5v2h-5v2h5v3l6-6-6-6z"/>
-      </svg>
-    ),
+    icon: <SahibindenIcon />,
   },
 ];
 
@@ -41,7 +51,7 @@ const socialLinks = [
 const phoneNumbers = [
   { number: '0 (216) 314 12 94', href: 'tel:+902163141294' },
   { number: '0 (532) 297 58 13', href: 'tel:+905322975813' },
-  { number: '+90 531 697 36 90', href: 'tel:+905316973690' },
+  { number: '0 (531) 697 36 90', href: 'tel:+905316973690' },
 ];
 
 export function Footer() {
@@ -51,10 +61,8 @@ export function Footer() {
   const quickLinks = [
     { name: t('nav.home'), href: '/' },
     { name: t('nav.services'), href: '/#hizmetler' },
-    { name: t('nav.machines'), href: '/#makinalar' },
-    { name: t('nav.listings'), href: '/#sahibinden' },
+    { name: t('nav.machines'), href: '/#makineler' },
     { name: t('nav.projects'), href: '/projeler' },
-    { name: t('nav.team'), href: '/ekip' },
     { name: t('nav.about'), href: '/#hakkimizda' },
     { name: t('nav.contact'), href: '/#iletisim' },
   ];
@@ -78,7 +86,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex mb-5">
               <div className="relative w-44 h-12">
-                <Image src="/images/logo-white.png" alt="Güven İş ve İstif Makinaları" fill className="object-contain" />
+                <Image src="/images/guven-white.png" alt="Güven İş ve İstif Makineleri" fill className="object-contain" />
               </div>
             </Link>
             <p className="text-sm text-white/40 italic mb-2">{t('footer.tagline')}</p>
@@ -94,7 +102,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-stone-400 hover:text-[#4A90D9] transition-colors group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/6 flex items-center justify-center group-hover:bg-[#1E5AA8] transition-colors flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-white/6 flex items-center justify-center group-hover:bg-[#1E5AA8] transition-colors flex-shrink-0 overflow-hidden">
                     {s.icon}
                   </div>
                   <span className="text-sm">{'label' in s ? s.label : s.name}</span>
@@ -182,7 +190,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={'label' in s ? s.label : s.name}
-                  className="w-9 h-9 rounded-lg bg-white/6 flex items-center justify-center text-stone-400 hover:bg-[#1E5AA8] hover:text-white transition-all"
+                  className="w-9 h-9 rounded-lg bg-white/6 flex items-center justify-center text-stone-400 hover:bg-[#1E5AA8] hover:text-white transition-all overflow-hidden"
                 >
                   {s.icon}
                 </a>

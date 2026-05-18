@@ -35,8 +35,8 @@ const siteUrl = 'https://www.guvenismakine.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Güven İş ve İstif Makinaları | Forklift & Ekskavatör Kiralama İstanbul',
-    template: '%s | Güven İş ve İstif Makinaları',
+    default: 'Güven İş ve İstif Makineleri | Forklift & Ekskavatör Kiralama İstanbul',
+    template: '%s | Güven İş ve İstif Makineleri',
   },
   description:
     "1978'den bu yana İstanbul Ümraniye'de forklift, ekskavatör, mini ekskavatör ve istif makinesi kiralama, satış ve servis hizmetleri. 45+ yıllık tecrübe, geniş makine filosu, hızlı teslimat.",
@@ -56,15 +56,15 @@ export const metadata: Metadata = {
     'makina satışı istanbul',
     '1978 makina firması',
   ],
-  authors: [{ name: 'Güven İş ve İstif Makinaları', url: siteUrl }],
-  creator: 'Güven İş ve İstif Makinaları',
-  publisher: 'Güven İş ve İstif Makinaları',
+  authors: [{ name: 'Güven İş ve İstif Makineleri', url: siteUrl }],
+  creator: 'Güven İş ve İstif Makineleri',
+  publisher: 'Güven İş ve İstif Makineleri',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Güven İş ve İstif Makinaları | Forklift & Ekskavatör Kiralama İstanbul',
+    title: 'Güven İş ve İstif Makineleri | Forklift & Ekskavatör Kiralama İstanbul',
     description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama, satış ve teknik servis. 1978'den bu yana 45+ yıllık tecrübeyle güvenilir çözüm ortağınız.",
     url: siteUrl,
-    siteName: 'Güven İş ve İstif Makinaları',
+    siteName: 'Güven İş ve İstif Makineleri',
     type: 'website',
     locale: 'tr_TR',
     images: [
@@ -72,13 +72,13 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Güven İş ve İstif Makinaları — Forklift & Ekskavatör Kiralama',
+        alt: 'Güven İş ve İstif Makineleri  — Forklift & Ekskavatör Kiralama',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Güven İş ve İstif Makinaları',
+    title: 'Güven İş ve İstif Makineleri',
     description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama ve satış.",
     images: ['/images/og-image.jpg'],
   },
@@ -118,7 +118,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'LocalBusiness',
-              name: 'Güven İş ve İstif Makinaları',
+              name: 'Güven İş ve İstif Makineleri',
               description: "İstanbul'da forklift, ekskavatör ve istif makinesi kiralama, satış ve teknik servis. 1978'den bu yana.",
               url: siteUrl,
               telephone: ['+902163141294', '+905322975813'],

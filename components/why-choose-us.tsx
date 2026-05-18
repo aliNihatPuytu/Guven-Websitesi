@@ -15,23 +15,23 @@ const features = [
   },
   {
     icon: Cog,
-    titleTr: 'Modern Makine Parkı',
+    titleTr: 'Makine Parkı',
     titleEn: 'Modern Machine Fleet',
-    descTr: 'Son teknoloji, düzenli bakımlı ve tam sigortalı geniş makine filomuz her projeye hazır.',
+    descTr: 'Düzenli bakımlı ve tam sigortalı geniş makine filomuz her projeye hazır.',
     descEn: 'Our latest-technology, regularly maintained and fully insured large machine fleet is ready for every project.',
   },
   {
     icon: Users,
     titleTr: 'Profesyonel Kadro',
     titleEn: 'Professional Team',
-    descTr: 'Sertifikalı ve deneyimli operatör ile teknik kadromuzla güvenli hizmet garantisi.',
+    descTr: 'Sertifikalı ve deneyimli operatörlerimiz ile güvenilir hizmet sunuyoruz.',
     descEn: 'Guaranteed safe service with our certified and experienced operator and technical team.',
   },
   {
     icon: Zap,
     titleTr: 'Hızlı Teslimat',
     titleEn: 'Fast Delivery',
-    descTr: 'İhtiyaç duyduğunuzda makineyi zamanında ve eksiksiz yerinize ulaştırıyoruz.',
+    descTr: 'İhtiyaç duyduğunuz makine hızlı ve zamanında yerinize ulaştırıyoruz.',
     descEn: 'We deliver the machine to your location on time and completely when you need it.',
   },
   {

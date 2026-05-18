@@ -61,7 +61,7 @@ export function VideoIntro({ onClose }: VideoIntroProps) {
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-[#1E5AA8] animate-pulse" />
               <span className="text-white/70 text-sm font-medium tracking-wide">
-                Güven İş ve İstif Makinaları — Tanıtım
+                Güven İş ve İstif Makineleri — Tanıtım
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export function VideoIntro({ onClose }: VideoIntroProps) {
               Aşağıdaki video elementine src="/videos/tanitim.mp4" ekleyin
               ve public/videos/ klasörüne tanıtım videonuzu yükleyin.
               
-              YOUTUBE KULLANMAK İSTERSENİZ:
+              YOUTUBE KULLANMAK İSTERSEK:
               video elementini kaldırıp aşağıdaki iframe ile değiştirin:
               <iframe
                 src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&controls=1&rel=0"

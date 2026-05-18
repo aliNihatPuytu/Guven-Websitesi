@@ -16,8 +16,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // NAV
     'nav.home': 'Ana Sayfa',
     'nav.services': 'Hizmetler',
-    'nav.machines': 'Makinalar',
-    'nav.listings': 'İlanlarımız',
+    'nav.machines': 'Makineler',
     'nav.projects': 'Projeler',
     'nav.team': 'Ekibimiz',
     'nav.about': 'Hakkımızda',
@@ -25,10 +24,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.quote': 'Teklif Al',
 
     // HERO
-    'hero.badge': "1978'den Beri İstanbul'da",
-    'hero.title': 'Güvenilir İş ve İstif Makinaları',
-    'hero.subtitle': 'Satış, kiralama, yedek parça ve teknik destek hizmetlerinde İstanbul\'un güvenilir çözüm ortağı.',
-    'hero.cta.machines': 'Makinaları İncele',
+    'hero.badge': "1978'den Bugüne, Geleceğe Güvenle",
+    'hero.title': 'Güven İş ve İstif Makineleri',
+    'hero.subtitle': 'Satış, kiralama, yedek parça ve teknik destek \nhizmetlerinde güvenilir çözüm ortağı.',
+    'hero.cta.machines': 'Makineleri İncele',
     'hero.cta.quote': 'Teklif Al',
     'hero.stat.experience': 'Yıl Deneyim',
     'hero.stat.projects': 'Tamamlanan Proje',
@@ -36,14 +35,14 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // SERVICES
     'services.label': 'Hizmetlerimiz',
-    'services.title': 'Kapsamlı Makina Çözümleri',
+    'services.title': 'Kapsamlı Makine Çözümleri',
     'services.subtitle': '45 yılı aşkın tecrübemizle iş ve istif makineleri alanında kapsamlı çözümler sunuyoruz.',
     'services.rental.title': 'İş ve İstif Makinesi Kiralama',
-    'services.rental.desc': 'Geniş makine filomuzla kısa ve uzun süreli kiralama hizmetleri sunuyoruz. Tüm makinelerimiz düzenli bakımlı ve sigortalıdır.',
-    'services.sales.title': 'Makina Satışı',
-    'services.sales.desc': 'Yeni ve ikinci el iş ve istif makineleri satışı yapıyoruz. Güvenilir markalardan kaliteli makineler, garanti hizmetiyle.',
+    'services.rental.desc': 'Tüm makinelerimiz düzenli bakımlıdır.',
+    'services.sales.title': 'Makine Satışı',
+    'services.sales.desc': 'Sıfır ve ikinci el iş ve istif makinelerinin satışını yapıyoruz.',
     'services.parts.title': 'Yedek Parça',
-    'services.parts.desc': 'Birçok farklı markaya ait iş ve istif makineleri için hızlı yedek parça temini sağlıyoruz.',
+    'services.parts.desc': 'Farklı markalara ait iş ve istif makineleri için hızlı, güvenilir ve kesintisiz yedek parça tedarik hizmeti sunuyoruz.',
     'services.support.title': 'Servis ve Teknik Destek',
     'services.support.desc': 'Deneyimli kadromuzla hızlı servis ve teknik destek hizmeti sunuyoruz. Projenizin her aşamasında yanınızdayız.',
 
@@ -66,9 +65,9 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // QUOTE
     'quote.label': 'Hızlı Teklif',
-    'quote.title': 'Makina Kiralama Teklifi Alın',
-    'quote.subtitle': 'İhtiyacınız olan makineyi seçin, bilgilerinizi girin — ekibimiz en kısa sürede sizinle iletişime geçsin.',
-    'quote.machine': 'Makina Türü',
+    'quote.title': 'Makine Kiralama Teklifi Alın',
+    'quote.subtitle': 'İhtiyacınız olan makineyi seçin, bilgilerinizi girin, ekibimiz en kısa sürede sizinle iletişime geçsin.',
+    'quote.machine': 'Makine Türü',
     'quote.duration': 'Kiralama Süresi',
     'quote.location': 'Proje Lokasyonu',
     'quote.location.placeholder': 'Şehir veya ilçe giriniz',
@@ -85,13 +84,13 @@ const translations: Record<Locale, Record<string, string>> = {
     'quote.success.desc': 'En kısa sürede ekibimiz sizinle iletişime geçecektir.',
     'quote.newQuote': 'Yeni Teklif Al',
     'quote.summary.title': 'Tahmini Kiralama Özeti',
-    'quote.summary.machine': 'Makina',
+    'quote.summary.machine': 'Makine',
     'quote.summary.duration': 'Süre',
     'quote.summary.operator': 'Operatör',
     'quote.summary.operator.yes': 'Dahil',
     'quote.summary.price': 'Tahmini Fiyat',
     'quote.summary.vat': '*KDV hariç tahmini fiyattır',
-    'quote.summary.empty': 'Makina ve süre seçerek tahmini fiyatı görün.',
+    'quote.summary.empty': 'Makine ve süre seçerek tahmini fiyatı görün.',
     'quote.select.placeholder': 'Seçiniz...',
     'quote.error': 'Bir hata oluştu. Lütfen tekrar deneyin.',
 
@@ -107,7 +106,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // ABOUT
     'about.label': 'Hakkımızda',
     'about.title': "1978'den Bu Yana Güvenle Hizmet",
-    'about.p1': "Güven İş ve İstif Makinaları, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
+    'about.p1': "Güven İş ve İstif Makineleri, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
     'about.p2': 'Firmamız çeşitli iş ve istif makinelerinin satış, kiralama ve yedek parça hizmetlerini profesyonel bir anlayışla sunmaktadır. Geniş ürün yelpazemiz sayesinde birçok farklı markaya ait makineler için müşterilerimize uygun seçenekler sunuyor, yedek parça ve teknik destek konusunda hızlı çözümler sağlıyoruz.',
     'about.cta': 'Bizimle İletişime Geçin',
     'about.mission.title': 'Misyonumuz',
@@ -166,7 +165,6 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.home': 'Home',
     'nav.services': 'Services',
     'nav.machines': 'Machines',
-    'nav.listings': 'Listings',
     'nav.projects': 'Projects',
     'nav.team': 'Our Team',
     'nav.about': 'About Us',
@@ -174,9 +172,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.quote': 'Get a Quote',
 
     // HERO
-    'hero.badge': 'In Istanbul Since 1978',
-    'hero.title': 'Reliable Work & Stacking Machines',
-    'hero.subtitle': "Istanbul's trusted partner for machinery sales, rental, spare parts and technical support.",
+    'hero.badge': 'Since 1978, Building the Future with Confidence',
+    'hero.title': 'Güven Material Handling Equipment',
+    'hero.subtitle': "Your trusted solution partner for sales, rental, spare parts, and technical support services.",
     'hero.cta.machines': 'View Machines',
     'hero.cta.quote': 'Get a Quote',
     'hero.stat.experience': 'Years Experience',
@@ -184,17 +182,17 @@ const translations: Record<Locale, Record<string, string>> = {
     'hero.stat.fleet': 'Machine Fleet',
 
     // SERVICES
-    'services.label': 'Our Services',
-    'services.title': 'Comprehensive Machine Solutions',
-    'services.subtitle': 'With over 45 years of experience, we provide comprehensive solutions in work and stacking machinery.',
-    'services.rental.title': 'Machine Rental',
-    'services.rental.desc': 'We offer short and long-term rental services with our wide machine fleet. All our machines are regularly maintained and insured.',
-    'services.sales.title': 'Machine Sales',
-    'services.sales.desc': 'We sell new and used work & stacking machines from reliable brands with warranty service.',
+    'services.label': 'Services',
+    'services.title': 'Comprehensive Machinery Solutions',
+    'services.subtitle': 'With over 45 years of experience, we provide comprehensive solutions in industrial and material handling equipment.',
+    'services.rental.title': 'Industrial & Material Handling Equipment Rental',
+    'services.rental.desc': 'All our machines are regularly maintained.',
+    'services.sales.title': 'Machinery Sales',
+    'services.sales.desc': 'We sell both new and used industrial and material handling equipment.',
     'services.parts.title': 'Spare Parts',
-    'services.parts.desc': 'We provide fast spare parts supply for work and stacking machines of many different brands.',
+    'services.parts.desc': 'We provide fast, reliable, and uninterrupted spare parts supply for various brands of industrial and material handling equipment.',
     'services.support.title': 'Service & Technical Support',
-    'services.support.desc': 'We provide fast service and technical support with our experienced team at every stage of your project.',
+    'services.support.desc': 'With our experienced team, we provide fast service and technical support. We are with you at every stage of your project.',
 
     // MACHINES
     'machines.label': 'Machine Categories',
@@ -216,7 +214,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // QUOTE
     'quote.label': 'Quick Quote',
     'quote.title': 'Get a Machine Rental Quote',
-    'quote.subtitle': 'Choose the machine you need, enter your details — our team will contact you as soon as possible.',
+    'quote.subtitle': 'Choose the machine you need, enter your details, our team will contact you as soon as possible.',
     'quote.machine': 'Machine Type',
     'quote.duration': 'Rental Duration',
     'quote.location': 'Project Location',
@@ -256,7 +254,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // ABOUT
     'about.label': 'About Us',
     'about.title': 'Serving with Trust Since 1978',
-    'about.p1': 'Güven İş ve İstif Makinaları has been operating in Istanbul in the work and stacking machinery sector since 1978. With the experience and trust we have gained since our founding, we provide our customers with quality, fast and sustainable solutions.',
+    'about.p1': 'Güven İş ve İstif Makineleri has been operating in Istanbul in the work and stacking machinery sector since 1978. With the experience and trust we have gained since our founding, we provide our customers with quality, fast and sustainable solutions.',
     'about.p2': 'Our company professionally offers sales, rental and spare parts services for various work and stacking machines. Thanks to our wide product range, we offer suitable options for machines of many different brands and provide fast solutions for spare parts and technical support.',
     'about.cta': 'Contact Us',
     'about.mission.title': 'Our Mission',

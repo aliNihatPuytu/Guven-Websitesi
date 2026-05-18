@@ -50,7 +50,7 @@ export function AboutCompany() {
                 {/* Fallback image shown before video plays */}
                 <Image
                   src="/images/about-company.jpg"
-                  alt="Güven İş ve İstif Makinaları ekipman filosu"
+                  alt="Güven İş ve İstif Makineleri ekipman filosu"
                   fill
                   className={`object-cover transition-opacity duration-500 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}
                 />
@@ -114,7 +114,7 @@ export function AboutCompany() {
                 1978'den Bu Yana Güvenle Hizmet
               </h2>
               <p className="text-lg text-[#0B1929]/70 leading-relaxed">
-                Güven İş ve İstif Makinaları, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.
+                Güven İş ve İstif Makineleri, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.
               </p>
               <p className="text-[#0B1929]/55 leading-relaxed">
                 Firmamız çeşitli iş ve istif makinelerinin satış, kiralama ve yedek parça hizmetlerini profesyonel bir anlayışla sunmaktadır. Geniş ürün yelpazemiz sayesinde birçok farklı markaya ait makineler için müşterilerimize uygun seçenekler sunuyor, yedek parça ve teknik destek konusunda hızlı çözümler sağlıyoruz.

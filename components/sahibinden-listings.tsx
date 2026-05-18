@@ -5,8 +5,8 @@ import { ExternalLink, Tag, Building2, ArrowRight, ShoppingBag, Calendar } from 
 import { SectionWrapper, FadeIn } from '@/components/ui/section-wrapper';
 import { Button } from '@/components/ui/button';
 
-// Bu ilanlar www.sahibinden.com/guvenismakine adresinden alınmış gerçek ilan formatındadır.
-// Yeni ilan eklemek için aşağıdaki listeye obje ekleyin.
+// Bu ilanlar www.sahibinden.com/guvenismakine adresinden alınmış gerçek ilan formatında.
+// Yeni ilan eklemek için aşağıdaki listeye obje ekle.
 const featuredListings = [
   {
     id: 1,

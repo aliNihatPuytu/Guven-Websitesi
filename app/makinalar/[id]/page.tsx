@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const machine = machines.find((m) => m.id === id);
   if (!machine) return {};
   return {
-    title: `${machine.title} | Güven İş ve İstif Makinaları`,
+    title: `${machine.title} | Güven İş ve İstif Makineleri`,
     description: machine.shortDesc + ' Satılık ve kiralık ilanlar için sahibinden.com mağazamızı ziyaret edin.',
   };
 }

@@ -28,14 +28,20 @@ const platformLinks = [
     ),
     colorClass: 'hover:bg-gradient-to-br hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045]',
   },
-  {
-    label: 'Sahibinden.com',
-    href: 'https://guvenismakine.sahibinden.com/',
-    icon: <ExternalLink className="w-5 h-5" />,
-    colorClass: 'hover:bg-[#FF6600]',
-  },
-];
 
+{
+  label: 'Sahibinden.com',
+  href: 'https://guvenismakine.sahibinden.com/',
+  icon: (
+    <img
+      src="https://logo.clearbit.com/sahibinden.com"
+      alt="Sahibinden"
+      className="w-5 h-5 object-contain"
+    />
+  ),
+  colorClass: 'hover:bg-[#FF6600]',
+}
+];
 const initialForm = { name: '', phone: '', email: '', message: '' };
 
 export function ContactSection() {

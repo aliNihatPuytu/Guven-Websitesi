@@ -4,8 +4,8 @@ import { Footer } from '@/components/footer';
 import { TeamPageClient } from './team-page-client';
 
 export const metadata: Metadata = {
-  title: 'Ekibimiz | Güven İş ve İstif Makinaları',
-  description: 'Güven İş ve İstif Makinaları\'nın deneyimli ve uzman ekibi. 1978\'den bu yana sektöre değer katan profesyonellerimizle tanışın.',
+  title: 'Ekibimiz | Güven İş ve İstif Makineleri',
+  description: 'Güven İş ve İstif Makineleri\'nin deneyimli ve uzman ekibi. 1978\'den bu yana sektöre değer katan profesyonellerimizle tanışın.',
 };
 
 export default function TeamPage() {
