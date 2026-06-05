@@ -102,12 +102,14 @@ export function QuoteCalculator() {
       });
 
       if (res.ok) {
-        setIsSubmitted(true);
-        showAlert(
+        const message = await getApiMessage(
+          res,
           locale === 'tr'
             ? 'Teklif talebiniz başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.'
             : 'Your quote request has been sent successfully. Our team will contact you as soon as possible.',
         );
+        setIsSubmitted(true);
+        showAlert(message);
       } else {
         const message = await getApiMessage(res, t('quote.error'));
         setError(message);

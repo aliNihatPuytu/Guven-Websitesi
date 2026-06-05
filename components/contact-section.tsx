@@ -77,13 +77,15 @@ export function ContactSection() {
         body: JSON.stringify({ ...formData, formType: 'contact' }),
       });
       if (res.ok) {
-        setIsSubmitted(true);
-        setFormData(initialForm);
-        showAlert(
+        const message = await getApiMessage(
+          res,
           locale === 'tr'
             ? 'Mesajınız başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.'
             : 'Your message has been sent successfully. Our team will contact you as soon as possible.',
         );
+        setIsSubmitted(true);
+        setFormData(initialForm);
+        showAlert(message);
         setTimeout(() => setIsSubmitted(false), 7000);
       } else {
         const message = await getApiMessage(

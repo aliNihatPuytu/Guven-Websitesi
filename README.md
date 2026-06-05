@@ -20,14 +20,11 @@ Tarayıcıda `http://localhost:3000` adresini açın.
 
 ## E-posta Kurulumu — Titan SMTP
 
-Form gönderimlerinde hem **teklif formu** hem de **iletişim formu** sunucu tarafındaki
-`/api/contact` endpoint'ine gider ve e-postalar `info@guvenismakine.com` adresine iletilir.
-Herhangi bir harici sayfaya yönlendirme yapılmaz.
-
-Titan için Vercel panelinde şu Environment Variables değerlerini girin:
+Vercel panelinde **Project > Settings > Environment Variables** alanına aşağıdaki değerleri tek tek ekleyin. Değerleri tırnaksız yazın ve kaydettikten sonra mutlaka yeniden deploy edin.
 
 ```env
 SMTP_HOST=smtp.titan.email
+SMTP_HOSTS=smtp.titan.email,smtp0101.titan.email
 SMTP_PORT=465
 SMTP_SECURE=true
 SMTP_USER=info@guvenismakine.com
@@ -37,21 +34,14 @@ MAIL_FROM_NAME=Güven Web Sitesi
 MAIL_TO=info@guvenismakine.com
 ```
 
-Notlar:
-- `SMTP_PASS` alanına Titan panelindeki `info@guvenismakine.com` hesabının mail şifresi girilmelidir. Değeri girerken başına/sonuna boşluk veya tırnak işareti koymayın.
-- `SMTP_USER` mutlaka tam mail adresi olmalıdır: `info@guvenismakine.com`.
-- Kod varsayılan olarak Titan'ın `smtp.titan.email` sunucusunu ve `465 / SSL-TLS` ayarını kullanır.
-- Alternatif olarak `SMTP_PORT=587` ve `SMTP_SECURE=false` ile STARTTLS kullanılabilir.
-- Yerelde test etmek için `.env.local` dosyası oluşturabilirsiniz. Örnek dosya: `.env.example`.
+Önemli kontroller:
 
-### Vercel'de yapılacaklar
-
-1. Vercel projesini açın.
-2. **Settings > Environment Variables** bölümüne yukarıdaki değerleri ekleyin.
-3. `SMTP_PASS` değerini gerçek Titan mail şifresiyle değiştirin.
-4. Projeyi yeniden deploy edin.
-
----
+- `SMTP_PASS` alanına `info@guvenismakine.com` hesabının Titan webmail giriş şifresi yazılmalıdır.
+- `SMTP_USER`, `MAIL_FROM` ve `MAIL_TO` tam adres olmalıdır: `info@guvenismakine.com`.
+- Titan Webmail içinde **Settings > Enable Titan on other apps** açık olmalıdır.
+- Titan hesabında 2FA açıksa üçüncü parti SMTP erişimi engellenebilir; SMTP için 2FA kapalı olmalı veya sağlayıcınız destekliyorsa uygulama şifresi kullanılmalıdır.
+- Bu sürüm otomatik olarak `smtp.titan.email`, `smtp0101.titan.email`, `465 SSL` ve `587 STARTTLS` kombinasyonlarını dener.
+- Domain maili Titan değil de GoDaddy/SecureServer üzerinde kalmışsa Vercel'e ayrıca `SMTP_GODADDY_FALLBACK=true` ekleyebilirsiniz.
 
 ## Telefon Numarası Eklemek
 
