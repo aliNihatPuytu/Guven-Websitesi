@@ -13,6 +13,7 @@ import { AboutCompany } from '@/components/about-company';
 import { CTASection } from '@/components/cta-section';
 import { ContactSection } from '@/components/contact-section';
 import { Footer } from '@/components/footer';
+import { HashScrollHandler } from '@/components/hash-scroll-handler';
 
 export default function Home() {
   const [siteVisible, setSiteVisible] = useState(false);
@@ -22,6 +23,7 @@ export default function Home() {
       {!siteVisible && <LoadingScreen onComplete={() => setSiteVisible(true)} />}
       {siteVisible && (
         <main className="min-h-screen">
+          <HashScrollHandler />
           <Header />
           <Hero />
           <Services />

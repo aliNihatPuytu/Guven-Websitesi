@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, type MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
+import { scrollToPageSection } from '@/lib/section-navigation';
 
 export function Hero() {
   const { t } = useLanguage();
@@ -20,6 +21,12 @@ export function Hero() {
 
   const scrollToNext = () => {
     document.getElementById('hizmetler')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleQuoteClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (scrollToPageSection('teklif')) {
+      event.preventDefault();
+    }
   };
 
   const toggleMute = () => {
@@ -121,7 +128,7 @@ export function Hero() {
             size="lg"
             className="border-white/40 text-white hover:bg-white/12 hover:border-white/70 px-8 py-6 text-base font-medium bg-transparent backdrop-blur-sm"
           >
-            <Link href="/#teklif">{t('hero.cta.quote')}</Link>
+            <Link href="/#teklif" onClick={handleQuoteClick}>{t('hero.cta.quote')}</Link>
           </Button>
         </motion.div>
       </motion.div>
