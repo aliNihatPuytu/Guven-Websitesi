@@ -9,12 +9,11 @@ import { useLanguage } from '@/contexts/language-context';
 function SahibindenIcon() {
   return (
     <Image
-      src="https://logo.clearbit.com/sahibinden.com"
+      src="/images/sahibinden-logo1.png"
       alt="Sahibinden"
       width={16}
       height={16}
-      className="w-4 h-4 object-contain"
-      unoptimized
+      className="w-9 h-9 object-contain"
     />
   );
 }
@@ -30,6 +29,7 @@ const socialLinks = [
       </svg>
     ),
   },
+  
   {
     name: 'Instagram',
     href: 'https://www.instagram.com/guvenismakine?igsh=MTU0bzhweGY2OGw3bg==',
@@ -71,8 +71,7 @@ export function Footer() {
     { name: locale === 'tr' ? 'İş Makinesi Kiralama' : 'Machine Rental', href: '/#hizmetler' },
     { name: locale === 'tr' ? 'Makina Satışı' : 'Machine Sales', href: '/#hizmetler' },
     { name: locale === 'tr' ? 'Yedek Parça' : 'Spare Parts', href: '/#hizmetler' },
-    { name: locale === 'tr' ? 'Servis ve Teknik Destek' : 'Technical Support', href: '/#hizmetler' },
-    { name: 'Sahibinden.com', href: 'https://guvenismakine.sahibinden.com/', external: true },
+    { name: locale === 'tr' ? 'Servis ve Teknik Destek' : 'Technical Support', href: '/#hizmetler' }
   ];
 
   return (
@@ -102,7 +101,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-stone-400 hover:text-[#4A90D9] transition-colors group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/6 flex items-center justify-center group-hover:bg-[#1E5AA8] transition-colors flex-shrink-0 overflow-hidden">
+                  <div className="w-10 h-10 rounded-lg bg-white/6 flex items-center justify-center group-hover:bg-[#1E5AA8] transition-colors flex-shrink-0 overflow-hidden">
                     {s.icon}
                   </div>
                   <span className="text-sm">{'label' in s ? s.label : s.name}</span>

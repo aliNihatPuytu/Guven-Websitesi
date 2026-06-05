@@ -34,7 +34,7 @@ const platformLinks = [
   href: 'https://guvenismakine.sahibinden.com/',
   icon: (
     <img
-      src="https://logo.clearbit.com/sahibinden.com"
+      src="/images/sahibinden-logo1.png"
       alt="Sahibinden"
       className="w-5 h-5 object-contain"
     />

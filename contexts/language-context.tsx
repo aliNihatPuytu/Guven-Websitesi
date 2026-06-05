@@ -113,7 +113,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // ABOUT
     'about.label': 'Hakkımızda',
     'about.title': "1978'den Bu Yana Güvenle Hizmet",
-    'about.p1': "Güven İş ve İstif Makineleri, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
+    'about.p1': "Güven İş ve İstif Makineleri, 1978 yılından bu yana iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
     'about.p2': 'Firmamız çeşitli iş ve istif makinelerinin satış, kiralama ve yedek parça hizmetlerini profesyonel bir anlayışla sunmaktadır. Geniş ürün yelpazemiz sayesinde birçok farklı markaya ait makineler için müşterilerimize uygun seçenekler sunuyor, yedek parça ve teknik destek konusunda hızlı çözümler sağlıyoruz.',
     'about.cta': 'Bizimle İletişime Geçin',
     'about.mission.title': 'Misyonumuz',
@@ -152,7 +152,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // FOOTER
     'footer.tagline': '"Güven ile kiralayın."',
-    'footer.desc': "1978'den bu yana iş ve istif makineleri alanında İstanbul'un güvenilir çözüm ortağı.",
+    'footer.desc': "1978'den bu yana iş ve istif makineleri alanında güvenilir çözüm ortağı.",
     'footer.pages': 'Sayfalar',
     'footer.services': 'Hizmetlerimiz',
     'footer.rights': 'Tüm hakları saklıdır.',
@@ -268,7 +268,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // ABOUT
     'about.label': 'About Us',
     'about.title': 'Serving with Trust Since 1978',
-    'about.p1': 'Güven İş ve İstif Makineleri has been operating in Istanbul in the work and stacking machinery sector since 1978. With the experience and trust we have gained since our founding, we provide our customers with quality, fast and sustainable solutions.',
+    'about.p1': 'Güven İş ve İstif Makineleri has been operating in the work and stacking machinery sector since 1978. With the experience and trust we have gained since our founding, we provide our customers with quality, fast and sustainable solutions.',
     'about.p2': 'Our company professionally offers sales, rental and spare parts services for various work and stacking machines. Thanks to our wide product range, we offer suitable options for machines of many different brands and provide fast solutions for spare parts and technical support.',
     'about.cta': 'Contact Us',
     'about.mission.title': 'Our Mission',
@@ -307,7 +307,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // FOOTER
     'footer.tagline': '"Rent with Confidence."',
-    'footer.desc': "Istanbul's trusted partner in work and stacking machinery since 1978.",
+    'footer.desc': "Trusted partner in work and stacking machinery since 1978.",
     'footer.pages': 'Pages',
     'footer.services': 'Services',
     'footer.rights': 'All rights reserved.',

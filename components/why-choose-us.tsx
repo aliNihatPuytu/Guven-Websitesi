@@ -17,7 +17,7 @@ const features = [
     icon: Cog,
     titleTr: 'Makine Parkı',
     titleEn: 'Modern Machine Fleet',
-    descTr: 'Düzenli bakımlı ve tam sigortalı geniş makine filomuz her projeye hazır.',
+    descTr: 'Düzenli ve bakımlı geniş makine filomuz her projeye hazır.',
     descEn: 'Our latest-technology, regularly maintained and fully insured large machine fleet is ready for every project.',
   },
   {

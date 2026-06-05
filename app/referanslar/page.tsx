@@ -67,7 +67,7 @@ export default function ReferanslarPage() {
             {references.map((ref) => (
               <div
                 key={ref.id}
-                className="group flex items-center justify-center aspect-[3/2] bg-white border border-[#E8ECF0] rounded-xl p-5 hover:shadow-lg hover:shadow-[#1E5AA8]/8 hover:border-[#1E5AA8]/25 transition-all duration-300"
+                className="group flex items-center justify-center aspect-[3/2] bg-white border border-[#E8ECF0] rounded-xl p-1 hover:shadow-lg hover:shadow-[#1E5AA8]/8 hover:border-[#1E5AA8]/25 transition-all duration-300"
               >
                 <div className="relative w-full h-full">
                   <Image
