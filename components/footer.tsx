@@ -9,7 +9,7 @@ import { useLanguage } from '@/contexts/language-context';
 function SahibindenIcon() {
   return (
     <Image
-      src="/images/sahibinden-logo1.png"
+      src="/images/sahibinden.png"
       alt="Sahibinden"
       width={16}
       height={16}

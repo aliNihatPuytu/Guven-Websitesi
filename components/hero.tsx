@@ -39,7 +39,7 @@ export function Hero() {
         />
         <video
           ref={videoRef}
-          src="/videos/tanitim.mp4"
+          src="/videos/guven-video.MP4"
           poster="/images/hero-construction.jpg"
           autoPlay
           loop
