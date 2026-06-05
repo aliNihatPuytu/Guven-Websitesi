@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const DEFAULT_TO_EMAIL = 'info@guvenismakine.com';
-const FORM_SUBMIT_ENDPOINT = 'https://formsubmit.co/ajax';
-const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+const DEFAULT_FROM_EMAIL = 'Güven Web Sitesi <noreply@guvenismakine.com>';
 
 type ContactBody = {
   name?: string;
@@ -17,11 +18,6 @@ type ContactBody = {
   estimatedPrice?: string;
   message?: string;
   formType?: 'quote' | 'contact' | string;
-};
-
-type ProviderResult = {
-  provider: 'web3forms' | 'formsubmit';
-  response?: unknown;
 };
 
 function cleanEnv(value: string | undefined) {
@@ -53,14 +49,13 @@ function asText(value: unknown, fallback = '—') {
   return text || fallback;
 }
 
-async function readProviderResponse(response: Response) {
-  const contentType = response.headers.get('content-type') || '';
-
-  if (contentType.includes('application/json')) {
-    return response.json().catch(() => null);
-  }
-
-  return response.text().catch(() => '');
+function escapeHtml(value: unknown) {
+  return asText(value, '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 function createSubmissionFields(body: ContactBody) {
@@ -94,120 +89,99 @@ function createSubmissionFields(body: ContactBody) {
   return { isQuote, subject, fields };
 }
 
-async function sendWithWeb3Forms(body: ContactBody, subject: string, fields: Record<string, string>) {
-  const accessKey = getEnv('WEB3FORMS_ACCESS_KEY', 'NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY');
+function createPlainText(fields: Record<string, string>) {
+  return Object.entries(fields)
+    .filter(([, value]) => value)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('\n');
+}
 
-  if (!accessKey) {
-    throw new Error('WEB3FORMS_ACCESS_KEY eksik.');
+function createHtml(subject: string, fields: Record<string, string>) {
+  const rows = Object.entries(fields)
+    .filter(([, value]) => value)
+    .map(
+      ([key, value]) => `
+        <tr>
+          <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700;color:#0b1929;width:190px;vertical-align:top;">${escapeHtml(key)}</td>
+          <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;color:#334155;white-space:pre-line;">${escapeHtml(value)}</td>
+        </tr>`,
+    )
+    .join('');
+
+  return `
+    <!doctype html>
+    <html lang="tr">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>${escapeHtml(subject)}</title>
+      </head>
+      <body style="margin:0;padding:0;background:#f6f8fb;font-family:Arial,Helvetica,sans-serif;">
+        <div style="max-width:720px;margin:0 auto;padding:28px 16px;">
+          <div style="background:#ffffff;border:1px solid #e8ecf0;border-radius:18px;overflow:hidden;">
+            <div style="background:#1E5AA8;padding:24px 28px;">
+              <h1 style="margin:0;color:#ffffff;font-size:22px;line-height:1.35;">${escapeHtml(subject)}</h1>
+              <p style="margin:8px 0 0;color:rgba(255,255,255,.8);font-size:14px;">guvenismakine.com form bildirimi</p>
+            </div>
+            <table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;">
+              ${rows}
+            </table>
+            <div style="padding:18px 28px;color:#64748b;font-size:13px;background:#f8fafc;">
+              Bu e-posta guvenismakine.com üzerindeki formdan otomatik oluşturulmuştur.
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>`;
+}
+
+function createResendErrorMessage(error: unknown) {
+  const rawMessage =
+    error instanceof Error
+      ? error.message
+      : typeof error === 'object' && error && 'message' in error
+        ? String(error.message)
+        : String(error || 'Bilinmeyen Resend hatası');
+
+  const lower = rawMessage.toLowerCase();
+
+  if (lower.includes('api key') || lower.includes('unauthorized') || lower.includes('401')) {
+    return 'Mail gönderilemedi. RESEND_API_KEY hatalı veya Vercel Production ortamına eklenmemiş görünüyor. API key değerini kontrol edip yeniden deploy edin.';
   }
 
-  const payload = {
-    access_key: accessKey,
+  if (lower.includes('domain') || lower.includes('verify') || lower.includes('validation') || lower.includes('sender')) {
+    return 'Mail gönderilemedi. Resend içinde guvenismakine.com domaini doğrulanmalı ve RESEND_FROM doğrulanmış domaine ait olmalı. Domain DNS kayıtlarını tamamlayıp yeniden deneyin.';
+  }
+
+  return `Mail gönderilemedi. Resend hatası: ${rawMessage}`;
+}
+
+async function sendWithResend(body: ContactBody, subject: string, fields: Record<string, string>) {
+  const apiKey = getEnv('RESEND_API_KEY');
+  const toEmail = getEnv('MAIL_TO', 'RESEND_TO', 'CONTACT_TO_EMAIL') || DEFAULT_TO_EMAIL;
+  const fromEmail = getEnv('RESEND_FROM', 'MAIL_FROM') || DEFAULT_FROM_EMAIL;
+
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY eksik. Vercel Environment Variables alanına RESEND_API_KEY ekleyip yeniden deploy edin.');
+  }
+
+  const resend = new Resend(apiKey);
+  const replyTo = isValidEmail(body.email) ? body.email!.trim() : undefined;
+
+  const { data, error } = await resend.emails.send({
+    from: fromEmail,
+    to: [toEmail],
+    replyTo,
     subject,
-    from_name: 'Güven Web Sitesi',
-    name: asText(body.name),
-    email: asText(body.email),
-    phone: asText(body.phone),
-    message: Object.entries(fields)
-      .filter(([, value]) => value)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n'),
-    ...fields,
-  };
-
-  const response = await fetch(WEB3FORMS_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-    cache: 'no-store',
+    html: createHtml(subject, fields),
+    text: createPlainText(fields),
   });
 
-  const result = await readProviderResponse(response);
-
-  if (!response.ok || (typeof result === 'object' && result && 'success' in result && result.success === false)) {
-    const message =
-      typeof result === 'object' && result && 'message' in result
-        ? String(result.message)
-        : `Web3Forms gönderimi başarısız oldu. HTTP ${response.status}`;
-
-    throw new Error(message);
+  if (error) {
+    throw new Error(error.message || JSON.stringify(error));
   }
 
-  return result;
-}
-
-async function sendWithFormSubmit(
-  body: ContactBody,
-  toEmail: string,
-  subject: string,
-  fields: Record<string, string>,
-) {
-  const formData = new URLSearchParams();
-
-  formData.set('_subject', subject);
-  formData.set('_template', 'table');
-  formData.set('_captcha', 'false');
-  formData.set('_replyto', asText(body.email, toEmail));
-  formData.set('_blacklist', 'casino,bitcoin,crypto,loan,porn,viagra');
-
-  Object.entries(fields).forEach(([key, value]) => {
-    formData.set(key, value);
-  });
-
-  const response = await fetch(`${FORM_SUBMIT_ENDPOINT}/${encodeURIComponent(toEmail)}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    },
-    body: formData.toString(),
-    cache: 'no-store',
-  });
-
-  const result = await readProviderResponse(response);
-
-  if (!response.ok || (typeof result === 'object' && result && 'success' in result && result.success === false)) {
-    const message =
-      typeof result === 'object' && result && 'message' in result
-        ? String(result.message)
-        : `FormSubmit gönderimi başarısız oldu. HTTP ${response.status}`;
-
-    throw new Error(message);
-  }
-
-  return result;
-}
-
-async function sendForm(body: ContactBody, toEmail: string, subject: string, fields: Record<string, string>) {
-  const preferredProvider = getEnv('CONTACT_PROVIDER', 'FORM_PROVIDER').toLowerCase();
-  const hasWeb3FormsKey = Boolean(getEnv('WEB3FORMS_ACCESS_KEY', 'NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY'));
-  const errors: string[] = [];
-
-  if (preferredProvider === 'web3forms' || (!preferredProvider && hasWeb3FormsKey)) {
-    try {
-      const response = await sendWithWeb3Forms(body, subject, fields);
-      return { provider: 'web3forms', response } satisfies ProviderResult;
-    } catch (error) {
-      errors.push(error instanceof Error ? error.message : String(error));
-    }
-  }
-
-  try {
-    const response = await sendWithFormSubmit(body, toEmail, subject, fields);
-    return { provider: 'formsubmit', response } satisfies ProviderResult;
-  } catch (error) {
-    errors.push(error instanceof Error ? error.message : String(error));
-  }
-
-  if (preferredProvider === 'formsubmit' || !hasWeb3FormsKey) {
-    throw new Error(errors.join(' | ') || 'Ücretsiz form servisi gönderimi başarısız oldu.');
-  }
-
-  // Web3Forms denendi ve başarısız olduysa FormSubmit fallback de başarısız olmuştur.
-  throw new Error(errors.join(' | ') || 'Ücretsiz form servisi gönderimi başarısız oldu.');
+  return data;
 }
 
 export async function POST(req: NextRequest) {
@@ -224,30 +198,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const toEmail = getEnv('MAIL_TO', 'CONTACT_TO_EMAIL') || DEFAULT_TO_EMAIL;
     const { isQuote, subject, fields } = createSubmissionFields(body);
-
-    const result = await sendForm(body, toEmail, subject, fields);
+    const result = await sendWithResend(body, subject, fields);
 
     return NextResponse.json({
       success: true,
-      provider: result.provider,
-      activationNotice:
-        result.provider === 'formsubmit'
-          ? 'FormSubmit ilk kullanımda info@guvenismakine.com adresine aktivasyon maili gönderebilir. Aktivasyon bir kez onaylandıktan sonra formlar direkt mail olarak gelir.'
-          : undefined,
+      provider: 'resend',
+      id: result?.id,
       message: isQuote
         ? 'Teklif talebiniz başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.'
         : 'Mesajınız başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.',
     });
   } catch (error) {
-    console.error('Ücretsiz form mail gönderim hatası:', error instanceof Error ? error.message : error);
+    console.error('Resend mail gönderim hatası:', error instanceof Error ? error.message : error);
 
     return NextResponse.json(
       {
-        error: 'FREE_FORM_SERVICE_FAILED',
-        message:
-          'Mail gönderilemedi. Ücretsiz form servisi yanıt vermedi. FormSubmit aktivasyon mailini info@guvenismakine.com gelen kutusunda onaylayın veya Web3Forms access key ekleyip yeniden deploy edin.',
+        error: 'RESEND_MAIL_FAILED',
+        message: createResendErrorMessage(error),
       },
       { status: 500 },
     );
