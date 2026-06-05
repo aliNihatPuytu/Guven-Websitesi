@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type MouseEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
+import { scrollToPageSection } from '@/lib/section-navigation';
 
 export function Header() {
   const { t, locale, setLocale } = useLanguage();
@@ -16,7 +17,7 @@ export function Header() {
   const navItems = [
     { name: t('nav.home'), href: '/' },
     { name: t('nav.services'), href: '/#hizmetler' },
-    { name: t('nav.machines'), href: '/#makineler' },
+    { name: t('nav.machines'), href: '/#makinalar' },
     { name: t('nav.references'), href: '/referanslar' },
     { name: t('nav.about'), href: '/#hakkimizda' },
     { name: t('nav.contact'), href: '/#iletisim' },
@@ -27,6 +28,13 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleQuoteClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (scrollToPageSection('teklif')) {
+      event.preventDefault();
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   const LanguageSwitcher = ({ dark = false }: { dark?: boolean }) => (
     <button
@@ -93,7 +101,7 @@ export function Header() {
                 asChild
                 className="hidden sm:inline-flex bg-[#1E5AA8] hover:bg-[#164a8a] text-white shadow-sm text-sm"
               >
-                <Link href="/#teklif">{t('nav.quote')}</Link>
+                <Link href="/#teklif" onClick={handleQuoteClick}>{t('nav.quote')}</Link>
               </Button>
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -157,9 +165,8 @@ export function Header() {
                 <Button
                   asChild
                   className="w-full bg-[#1E5AA8] hover:bg-[#164a8a] text-white min-h-[50px] text-base font-semibold"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Link href="/#teklif">{t('nav.quote')}</Link>
+                  <Link href="/#teklif" onClick={handleQuoteClick}>{t('nav.quote')}</Link>
                 </Button>
               </div>
             </div>

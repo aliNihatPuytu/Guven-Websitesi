@@ -18,30 +18,37 @@ Tarayıcıda `http://localhost:3000` adresini açın.
 
 ---
 
-## E-posta Kurulumu
+## E-posta Kurulumu — Titan SMTP
 
-Form gönderimlerinde (teklif formu ve iletişim formu) e-postalar `info@guvenismakina.com`
-adresine otomatik olarak iletilir. **Herhangi bir harici sayfaya yönlendirme yapılmaz.**
+Form gönderimlerinde hem **teklif formu** hem de **iletişim formu** sunucu tarafındaki
+`/api/contact` endpoint'ine gider ve e-postalar `info@guvenismakine.com` adresine iletilir.
+Herhangi bir harici sayfaya yönlendirme yapılmaz.
 
-### Resend ile kurulum (önerilen, ücretsiz tier mevcut)
-
-1. [resend.com](https://resend.com) adresinde hesap açın
-2. Alan adınızı (`guvenismakina.com`) doğrulayın
-3. API anahtarı oluşturun
-4. Proje kök dizininde `.env.local` dosyası oluşturun:
+Titan için Vercel panelinde şu Environment Variables değerlerini girin:
 
 ```env
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
+SMTP_HOST=smtp.titan.email
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=info@guvenismakine.com
+SMTP_PASS=BURAYA_TITAN_MAIL_SIFRESI
+MAIL_FROM=info@guvenismakine.com
+MAIL_FROM_NAME=Güven Web Sitesi
+MAIL_TO=info@guvenismakine.com
 ```
 
-5. `app/api/contact/route.ts` dosyasındaki `from` satırını güncelleyin:
-```ts
-from: 'Güven Web Sitesi <noreply@guvenismakina.com>',
-```
+Notlar:
+- `SMTP_PASS` alanına Titan panelindeki `info@guvenismakine.com` hesabının mail şifresi girilmelidir.
+- Kod varsayılan olarak Titan'ın `smtp.titan.email` sunucusunu ve `465 / SSL-TLS` ayarını kullanır.
+- Alternatif olarak `SMTP_PORT=587` ve `SMTP_SECURE=false` ile STARTTLS kullanılabilir.
+- Yerelde test etmek için `.env.local` dosyası oluşturabilirsiniz. Örnek dosya: `.env.example`.
 
-### Geliştirme modu
+### Vercel'de yapılacaklar
 
-`RESEND_API_KEY` tanımlanmamışsa form verileri konsola yazdırılır, mail gönderilmez.
+1. Vercel projesini açın.
+2. **Settings > Environment Variables** bölümüne yukarıdaki değerleri ekleyin.
+3. `SMTP_PASS` değerini gerçek Titan mail şifresiyle değiştirin.
+4. Projeyi yeniden deploy edin.
 
 ---
 
@@ -78,7 +85,7 @@ const phoneNumbers = [
   id: 'benzersiz-id',             // URL'de kullanılır: /ekip/benzersiz-id
   name: 'Ad Soyad',
   title: 'Unvan',
-  email: 'email@guvenismakina.com',
+  email: 'email@guvenismakine.com',
   phone: '0 (216) 314 12 94',
   image: '/team/foto.jpg',        // public/team/ klasörüne yükleyin
   bio: 'Uzun biyografi metni...',
@@ -131,8 +138,8 @@ Yer tutucu görselleri gerçek fotoğraflarla değiştirin:
 
 1. Projeyi GitHub'a push edin
 2. [vercel.com](https://vercel.com) → **Import Project**
-3. **Environment Variables** bölümüne `RESEND_API_KEY` ekleyin
-4. **Deploy** edin — otomatik `https://guvenismakina.com` adresine bağlanır
+3. **Environment Variables** bölümüne Titan SMTP değişkenlerini ekleyin
+4. **Deploy** edin — otomatik `https://guvenismakine.com` adresine bağlanır
 
 ---
 

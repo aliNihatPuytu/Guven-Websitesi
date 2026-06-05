@@ -1,13 +1,22 @@
 'use client';
 import Link from 'next/link';
+import type { MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SectionWrapper } from '@/components/ui/section-wrapper';
 import { useLanguage } from '@/contexts/language-context';
+import { scrollToPageSection } from '@/lib/section-navigation';
 
 export function CTASection() {
   const { t } = useLanguage();
+
+  const handleQuoteClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (scrollToPageSection('teklif')) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <SectionWrapper className="py-24 lg:py-32 bg-[#1E5AA8] relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -28,7 +37,7 @@ export function CTASection() {
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-[#1E5AA8] hover:bg-white/92 px-8 py-6 text-base font-semibold group shadow-xl">
-              <Link href="/#teklif" className="flex items-center gap-2">{t('cta.quote')}<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
+              <Link href="/#teklif" onClick={handleQuoteClick} className="flex items-center gap-2">{t('cta.quote')}<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-white/40 text-white hover:bg-white/10 hover:border-white px-8 py-6 text-base font-medium bg-transparent group">
               <a href="tel:+902163141294" className="flex items-center gap-2"><Phone className="w-4 h-4" />{t('cta.call')}</a>

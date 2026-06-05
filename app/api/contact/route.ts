@@ -1,17 +1,303 @@
 import { NextRequest, NextResponse } from 'next/server';
+import net from 'node:net';
+import tls from 'node:tls';
+import { Buffer } from 'node:buffer';
+
+export const runtime = 'nodejs';
+
+type SmtpMail = {
+  fromName: string;
+  fromEmail: string;
+  to: string[];
+  replyTo?: string;
+  subject: string;
+  html: string;
+  text: string;
+};
+
+type SmtpConfig = {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  pass: string;
+};
+
+const DEFAULT_TO_EMAIL = 'info@guvenismakine.com';
+
+function escapeHtml(value: unknown) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function stripHtml(html: string) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/div>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function sanitizeHeader(value: string) {
+  return value.replace(/[\r\n]+/g, ' ').trim();
+}
+
+function encodeHeader(value: string) {
+  const cleanValue = sanitizeHeader(value);
+  return /[^\x20-\x7E]/.test(cleanValue)
+    ? `=?UTF-8?B?${Buffer.from(cleanValue, 'utf8').toString('base64')}?=`
+    : cleanValue;
+}
+
+function formatAddress(name: string, email: string) {
+  return `${encodeHeader(name)} <${sanitizeHeader(email)}>`;
+}
+
+function isValidEmail(email: unknown) {
+  return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function getSmtpConfig(toEmail: string): SmtpConfig | null {
+  const pass =
+    process.env.SMTP_PASS ||
+    process.env.SMTP_PASSWORD ||
+    process.env.TITAN_SMTP_PASSWORD ||
+    process.env.TITAN_PASSWORD ||
+    '';
+
+  if (!pass) return null;
+
+  const port = Number(process.env.SMTP_PORT || process.env.TITAN_SMTP_PORT || 465);
+
+  return {
+    host: process.env.SMTP_HOST || process.env.TITAN_SMTP_HOST || 'smtp.titan.email',
+    port,
+    secure: String(process.env.SMTP_SECURE || process.env.TITAN_SMTP_SECURE || 'true') !== 'false',
+    user:
+      process.env.SMTP_USER ||
+      process.env.SMTP_USERNAME ||
+      process.env.TITAN_SMTP_USER ||
+      process.env.TITAN_EMAIL ||
+      toEmail,
+    pass,
+  };
+}
+
+async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
+  let socket: net.Socket | tls.TLSSocket;
+
+  const connectOptions = {
+    host: config.host,
+    port: config.port,
+    servername: config.host,
+  };
+
+  socket = await new Promise<net.Socket | tls.TLSSocket>((resolve, reject) => {
+    const client = config.secure ? tls.connect(connectOptions) : net.connect(connectOptions);
+
+    const cleanup = () => {
+      client.off('error', onError);
+      client.off('timeout', onTimeout);
+      client.off('connect', onConnect);
+      client.off('secureConnect', onConnect);
+    };
+
+    const onConnect = () => {
+      cleanup();
+      resolve(client);
+    };
+
+    const onError = (error: Error) => {
+      cleanup();
+      reject(error);
+    };
+
+    const onTimeout = () => {
+      cleanup();
+      reject(new Error('SMTP connection timeout'));
+    };
+
+    client.setTimeout(20000);
+    client.once(config.secure ? 'secureConnect' : 'connect', onConnect);
+    client.once('error', onError);
+    client.once('timeout', onTimeout);
+  });
+
+  const readResponse = () =>
+    new Promise<string>((resolve, reject) => {
+      let response = '';
+
+      const cleanup = () => {
+        socket.off('data', onData);
+        socket.off('error', onError);
+        socket.off('timeout', onTimeout);
+      };
+
+      const onData = (chunk: Buffer) => {
+        response += chunk.toString('utf8');
+        const lines = response.split(/\r?\n/).filter(Boolean);
+        const lastLine = lines[lines.length - 1] || '';
+
+        if (/^\d{3} /.test(lastLine)) {
+          cleanup();
+          resolve(response);
+        }
+      };
+
+      const onError = (error: Error) => {
+        cleanup();
+        reject(error);
+      };
+
+      const onTimeout = () => {
+        cleanup();
+        reject(new Error('SMTP response timeout'));
+      };
+
+      socket.on('data', onData);
+      socket.once('error', onError);
+      socket.once('timeout', onTimeout);
+    });
+
+  const command = async (line: string, expectedCodes: number[] = [250]) => {
+    socket.write(`${line}\r\n`);
+    const response = await readResponse();
+    const code = Number(response.slice(0, 3));
+
+    if (!expectedCodes.includes(code)) {
+      throw new Error(`SMTP command failed (${line}): ${response}`);
+    }
+
+    return response;
+  };
+
+  try {
+    await readResponse();
+    let ehloResponse = await command('EHLO guvenismakine.com');
+
+    if (!config.secure && /STARTTLS/i.test(ehloResponse)) {
+      await command('STARTTLS', [220]);
+      socket = await new Promise<tls.TLSSocket>((resolve, reject) => {
+        const secureSocket = tls.connect({
+          socket,
+          servername: config.host,
+        });
+
+        secureSocket.once('secureConnect', () => resolve(secureSocket));
+        secureSocket.once('error', reject);
+      });
+      ehloResponse = await command('EHLO guvenismakine.com');
+    }
+
+    if (!/AUTH/i.test(ehloResponse)) {
+      throw new Error('SMTP server does not advertise AUTH support.');
+    }
+
+    await command('AUTH LOGIN', [334]);
+    await command(Buffer.from(config.user, 'utf8').toString('base64'), [334]);
+    await command(Buffer.from(config.pass, 'utf8').toString('base64'), [235]);
+
+    await command(`MAIL FROM:<${mail.fromEmail}>`);
+
+    for (const recipient of mail.to) {
+      await command(`RCPT TO:<${recipient}>`, [250, 251]);
+    }
+
+    await command('DATA', [354]);
+
+    const boundary = `----=_GuvenForm_${Date.now()}`;
+    const headers = [
+      `From: ${formatAddress(mail.fromName, mail.fromEmail)}`,
+      `To: ${mail.to.join(', ')}`,
+      mail.replyTo ? `Reply-To: ${sanitizeHeader(mail.replyTo)}` : '',
+      `Subject: ${encodeHeader(mail.subject)}`,
+      `Date: ${new Date().toUTCString()}`,
+      'MIME-Version: 1.0',
+      `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    ].filter(Boolean);
+
+    const message = [
+      ...headers,
+      '',
+      `--${boundary}`,
+      'Content-Type: text/plain; charset=UTF-8',
+      'Content-Transfer-Encoding: 8bit',
+      '',
+      mail.text,
+      '',
+      `--${boundary}`,
+      'Content-Type: text/html; charset=UTF-8',
+      'Content-Transfer-Encoding: 8bit',
+      '',
+      mail.html,
+      '',
+      `--${boundary}--`,
+      '',
+    ]
+      .join('\r\n')
+      .replace(/^\./gm, '..');
+
+    socket.write(`${message}\r\n.\r\n`);
+    const dataResponse = await readResponse();
+    const dataCode = Number(dataResponse.slice(0, 3));
+
+    if (dataCode !== 250) {
+      throw new Error(`SMTP DATA failed: ${dataResponse}`);
+    }
+
+    await command('QUIT', [221]);
+  } finally {
+    socket.end();
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      name, phone, email,
-      machineType, duration, location,
-      operatorRequired, estimatedPrice,
-      message, formType,
+      name,
+      phone,
+      email,
+      machineType,
+      duration,
+      location,
+      operatorRequired,
+      estimatedPrice,
+      message,
+      formType,
     } = body;
 
-    const TO_EMAIL = 'info@guvenismakine.com';
+    if (!name || !phone || !isValidEmail(email)) {
+      return NextResponse.json({ error: 'Missing or invalid form fields' }, { status: 400 });
+    }
+
+    const TO_EMAIL = process.env.MAIL_TO || process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL;
+    const FROM_EMAIL = process.env.MAIL_FROM || process.env.SMTP_FROM || TO_EMAIL;
+    const FROM_NAME = process.env.MAIL_FROM_NAME || 'Güven Web Sitesi';
     const isQuote = formType === 'quote';
+
+    const safeName = escapeHtml(name);
+    const safePhone = escapeHtml(phone);
+    const safeEmail = escapeHtml(email);
+    const safeMachineType = escapeHtml(machineType || '—');
+    const safeDuration = escapeHtml(duration || '—');
+    const safeLocation = escapeHtml(location || '—');
+    const safeMessage = escapeHtml(message || '');
+    const safeEstimatedPrice = escapeHtml(estimatedPrice || 'Belirlenecek');
 
     const subject = isQuote
       ? `Yeni Teklif Talebi — ${name}`
@@ -25,29 +311,33 @@ export async function POST(req: NextRequest) {
       overflow: hidden;
       border: 1px solid #E8ECF0;
     `;
-    const headerStyle = `background: linear-gradient(135deg,#0B2545,#1E5AA8);padding:28px 32px;`;
-    const bodyStyle = `background:#ffffff;padding:28px 32px;`;
-    const rowStyle = `padding:10px 0;border-bottom:1px solid #F0F4F8;display:flex;`;
-    const labelStyle = `font-weight:600;color:#4A5568;min-width:160px;font-size:14px;`;
-    const valueStyle = `color:#1A202C;font-size:14px;`;
+    const headerStyle = 'background: linear-gradient(135deg,#0B2545,#1E5AA8);padding:28px 32px;';
+    const bodyStyle = 'background:#ffffff;padding:28px 32px;';
+    const rowStyle = 'padding:10px 0;border-bottom:1px solid #F0F4F8;display:flex;';
+    const labelStyle = 'font-weight:600;color:#4A5568;min-width:160px;font-size:14px;';
+    const valueStyle = 'color:#1A202C;font-size:14px;';
+
+    const priceRow = estimatedPrice
+      ? `<div style="${rowStyle}"><span style="${labelStyle}">Tahmini Fiyat</span><span style="color:#1E5AA8;font-weight:700;font-size:18px;">${safeEstimatedPrice}${estimatedPrice === 'Belirlenecek' ? '' : ' ₺'} <small style="font-size:11px;font-weight:400;color:#718096;">${estimatedPrice === 'Belirlenecek' ? '' : '(KDV hariç)'}</small></span></div>`
+      : '';
 
     const quoteRows = `
-      <div style="${rowStyle}"><span style="${labelStyle}">Ad Soyad</span><span style="${valueStyle}">${name}</span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">Telefon</span><span style="${valueStyle}"><a href="tel:${phone}" style="color:#1E5AA8;">${phone}</a></span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">E-posta</span><span style="${valueStyle}"><a href="mailto:${email}" style="color:#1E5AA8;">${email}</a></span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">Makina Türü</span><span style="${valueStyle}">${machineType || '—'}</span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">Kiralama Süresi</span><span style="${valueStyle}">${duration || '—'}</span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">Proje Lokasyonu</span><span style="${valueStyle}">${location || '—'}</span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Ad Soyad</span><span style="${valueStyle}">${safeName}</span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Telefon</span><span style="${valueStyle}"><a href="tel:${safePhone}" style="color:#1E5AA8;">${safePhone}</a></span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">E-posta</span><span style="${valueStyle}"><a href="mailto:${safeEmail}" style="color:#1E5AA8;">${safeEmail}</a></span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Makina Türü</span><span style="${valueStyle}">${safeMachineType}</span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Kiralama Süresi</span><span style="${valueStyle}">${safeDuration}</span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Proje Lokasyonu</span><span style="${valueStyle}">${safeLocation}</span></div>
       <div style="${rowStyle}"><span style="${labelStyle}">Operatör</span><span style="${valueStyle}">${operatorRequired ? 'Gerekli' : 'Gerekmez'}</span></div>
-      ${estimatedPrice ? `<div style="${rowStyle}"><span style="${labelStyle}">Tahmini Fiyat</span><span style="color:#1E5AA8;font-weight:700;font-size:18px;">${estimatedPrice} ₺ <small style="font-size:11px;font-weight:400;color:#718096;">(KDV hariç)</small></span></div>` : ''}
-      ${message ? `<div style="padding:10px 0;"><span style="${labelStyle}">Ek Mesaj</span><p style="color:#4A5568;font-size:14px;margin:6px 0 0;">${message}</p></div>` : ''}
+      ${priceRow}
+      ${message ? `<div style="padding:10px 0;"><span style="${labelStyle}">Ek Mesaj</span><p style="color:#4A5568;font-size:14px;margin:6px 0 0;">${safeMessage}</p></div>` : ''}
     `;
 
     const contactRows = `
-      <div style="${rowStyle}"><span style="${labelStyle}">Ad Soyad</span><span style="${valueStyle}">${name}</span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">Telefon</span><span style="${valueStyle}"><a href="tel:${phone}" style="color:#1E5AA8;">${phone}</a></span></div>
-      <div style="${rowStyle}"><span style="${labelStyle}">E-posta</span><span style="${valueStyle}"><a href="mailto:${email}" style="color:#1E5AA8;">${email}</a></span></div>
-      <div style="padding:10px 0;"><span style="${labelStyle}">Mesaj</span><p style="color:#4A5568;font-size:14px;margin:6px 0 0;">${message}</p></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Ad Soyad</span><span style="${valueStyle}">${safeName}</span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">Telefon</span><span style="${valueStyle}"><a href="tel:${safePhone}" style="color:#1E5AA8;">${safePhone}</a></span></div>
+      <div style="${rowStyle}"><span style="${labelStyle}">E-posta</span><span style="${valueStyle}"><a href="mailto:${safeEmail}" style="color:#1E5AA8;">${safeEmail}</a></span></div>
+      <div style="padding:10px 0;"><span style="${labelStyle}">Mesaj</span><p style="color:#4A5568;font-size:14px;margin:6px 0 0;">${safeMessage}</p></div>
     `;
 
     const htmlContent = `
@@ -71,21 +361,35 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    if (process.env.RESEND_API_KEY) {
+    const textContent = stripHtml(htmlContent);
+    const smtpConfig = getSmtpConfig(TO_EMAIL);
+
+    if (smtpConfig) {
+      await sendSmtpMail(smtpConfig, {
+        fromName: FROM_NAME,
+        fromEmail: FROM_EMAIL,
+        to: [TO_EMAIL],
+        replyTo: isValidEmail(email) ? String(email).trim() : undefined,
+        subject,
+        html: htmlContent,
+        text: textContent,
+      });
+    } else if (process.env.RESEND_API_KEY) {
       const { Resend } = await import('resend');
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: 'Güven Web Sitesi <onboarding@resend.dev>',
+        from: `${FROM_NAME} <${FROM_EMAIL}>`,
         to: [TO_EMAIL],
         subject,
         html: htmlContent,
         replyTo: email,
       });
     } else {
-      console.log('📧 EMAIL (RESEND_API_KEY not configured)');
-      console.log('To:', TO_EMAIL);
-      console.log('Subject:', subject);
-      console.log('Body:', JSON.stringify(body, null, 2));
+      console.error('SMTP configuration is missing. Set SMTP_PASS / TITAN_SMTP_PASSWORD in Vercel.');
+      return NextResponse.json(
+        { error: 'Mail server is not configured' },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true });
