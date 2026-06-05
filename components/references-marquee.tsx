@@ -11,8 +11,7 @@ import { references } from '@/lib/references-data';
 // ─── Ana Sayfa: Referans Logoları – Sonsuz Şerit ──────────────────────────────
 
 export function ReferencesMarquee() {
-  const { t, locale } = useLanguage();
-
+  const { t } = useLanguage();
 
   const items = [...references, ...references];
 
@@ -23,9 +22,11 @@ export function ReferencesMarquee() {
           <span className="text-sm font-semibold text-[#1E5AA8] tracking-widest uppercase">
             {t('references.label')}
           </span>
+
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-[#0B1929] mt-3">
             {t('references.title')}
           </h2>
+
           <p className="mt-4 text-lg text-[#0B1929]/60 max-w-2xl mx-auto">
             {t('references.subtitle')}
           </p>
@@ -47,18 +48,20 @@ export function ReferencesMarquee() {
           {items.map((ref, idx) => (
             <div
               key={`${ref.id}-${idx}`}
-              className="flex items-center justify-center px-8 md:px-12 shrink-0"
+              className="flex items-center justify-center px-8 md:px-12 shrink-0 overflow-visible"
               aria-hidden={idx >= references.length ? true : undefined}
             >
               <div className="relative h-16 md:h-20 w-44 md:w-56 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                <Image
-                  src={ref.image}
-                  alt={ref.name}
-                  fill
-                  sizes="(max-width: 768px) 176px, 224px"
-                  className="object-contain"
-                  unoptimized
-                />
+                <div className="relative w-full h-full scale-[1.22] hover:scale-[2] transition-transform duration-300 transform-gpu">
+                  <Image
+                    src={ref.image}
+                    alt={ref.name}
+                    fill
+                    sizes="(max-width: 768px) 176px, 224px"
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
               </div>
             </div>
           ))}
