@@ -26,6 +26,26 @@ type SmtpConfig = {
 
 const DEFAULT_TO_EMAIL = 'info@guvenismakine.com';
 
+function cleanEnv(value: string | undefined) {
+  if (!value) return '';
+
+  const trimmed = value.trim();
+  const isQuoted =
+    (trimmed.startsWith('\"') && trimmed.endsWith('\"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"));
+
+  return isQuoted ? trimmed.slice(1, -1).trim() : trimmed;
+}
+
+function getEnv(...names: string[]) {
+  for (const name of names) {
+    const value = cleanEnv(process.env[name]);
+    if (value) return value;
+  }
+
+  return '';
+}
+
 function escapeHtml(value: unknown) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -73,31 +93,28 @@ function isValidEmail(email: unknown) {
 }
 
 function getSmtpConfig(toEmail: string): SmtpConfig | null {
-  const pass =
-    process.env.SMTP_PASS ||
-    process.env.SMTP_PASSWORD ||
-    process.env.TITAN_SMTP_PASSWORD ||
-    process.env.TITAN_PASSWORD ||
-    '';
+  const pass = getEnv(
+    'SMTP_PASS',
+    'SMTP_PASSWORD',
+    'TITAN_SMTP_PASSWORD',
+    'TITAN_PASSWORD',
+    'EMAIL_PASSWORD',
+  );
 
   if (!pass) return null;
 
-  const port = Number(process.env.SMTP_PORT || process.env.TITAN_SMTP_PORT || 465);
-  const secureValue = String(
-    process.env.SMTP_SECURE ||
-      process.env.TITAN_SMTP_SECURE ||
-      (port === 465 ? 'true' : 'false'),
+  const port = Number(getEnv('SMTP_PORT', 'TITAN_SMTP_PORT') || 465);
+  const secureValue = (
+    getEnv('SMTP_SECURE', 'TITAN_SMTP_SECURE') ||
+    (port === 465 ? 'true' : 'false')
   ).toLowerCase();
 
   return {
-    host: process.env.SMTP_HOST || process.env.TITAN_SMTP_HOST || 'smtp.titan.email',
+    host: getEnv('SMTP_HOST', 'TITAN_SMTP_HOST') || 'smtp.titan.email',
     port,
     secure: secureValue === 'true' || secureValue === '1' || secureValue === 'yes',
     user:
-      process.env.SMTP_USER ||
-      process.env.SMTP_USERNAME ||
-      process.env.TITAN_SMTP_USER ||
-      process.env.TITAN_EMAIL ||
+      getEnv('SMTP_USER', 'SMTP_USERNAME', 'TITAN_SMTP_USER', 'TITAN_EMAIL', 'EMAIL_USER') ||
       toEmail,
     pass,
   };
@@ -214,9 +231,27 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
       throw new Error('SMTP server does not advertise AUTH support.');
     }
 
-    await command('AUTH LOGIN', [334]);
-    await command(Buffer.from(config.user, 'utf8').toString('base64'), [334], 'AUTH USER');
-    await command(Buffer.from(config.pass, 'utf8').toString('base64'), [235], 'AUTH PASS');
+    const authPlainValue = Buffer.from(`\0${config.user}\0${config.pass}`, 'utf8').toString('base64');
+    let authError: unknown;
+
+    if (/AUTH[^\r\n]*\bPLAIN\b/i.test(ehloResponse)) {
+      try {
+        await command(`AUTH PLAIN ${authPlainValue}`, [235], 'AUTH PLAIN');
+        authError = null;
+      } catch (error) {
+        authError = error;
+      }
+    }
+
+    if (authError !== null) {
+      try {
+        await command('AUTH LOGIN', [334]);
+        await command(Buffer.from(config.user, 'utf8').toString('base64'), [334], 'AUTH USER');
+        await command(Buffer.from(config.pass, 'utf8').toString('base64'), [235], 'AUTH PASS');
+      } catch (error) {
+        throw authError instanceof Error ? authError : error;
+      }
+    }
 
     await command(`MAIL FROM:<${mail.envelopeFrom || mail.fromEmail}>`);
 
@@ -305,6 +340,20 @@ async function sendSmtpMailWithFallback(config: SmtpConfig, mail: SmtpMail) {
   throw lastError instanceof Error ? lastError : new Error('SMTP send failed');
 }
 
+function getSafeSmtpErrorMessage(error: unknown) {
+  const rawMessage = error instanceof Error ? error.message : String(error);
+
+  if (/535|authentication|auth|login|password|credentials/i.test(rawMessage)) {
+    return 'Mail gönderilemedi. Titan mail şifresi veya SMTP_USER değeri hatalı görünüyor. Vercel Environment Variables alanında SMTP_USER=info@guvenismakine.com ve SMTP_PASS=Titan webmail şifresi olmalı. Kaydettikten sonra yeniden deploy edin.';
+  }
+
+  if (/timeout|ETIMEDOUT|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|network|certificate|TLS/i.test(rawMessage)) {
+    return 'Mail gönderilemedi. SMTP bağlantısı kurulamadı. Vercel Environment Variables alanında SMTP_HOST=smtp.titan.email, SMTP_PORT=465, SMTP_SECURE=true olmalı. Devam ederse SMTP_PORT=587 ve SMTP_SECURE=false deneyin.';
+  }
+
+  return 'Mail gönderilemedi. Titan SMTP ayarlarını kontrol edin: SMTP_USER, SMTP_PASS, SMTP_HOST, SMTP_PORT ve SMTP_SECURE değerleri doğru olmalı. Değişiklikten sonra yeniden deploy edin.';
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -325,9 +374,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing or invalid form fields' }, { status: 400 });
     }
 
-    const TO_EMAIL = process.env.MAIL_TO || process.env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL;
-    const FROM_EMAIL = process.env.MAIL_FROM || process.env.SMTP_FROM || TO_EMAIL;
-    const FROM_NAME = process.env.MAIL_FROM_NAME || 'Güven Web Sitesi';
+    const TO_EMAIL = getEnv('MAIL_TO', 'CONTACT_TO_EMAIL') || DEFAULT_TO_EMAIL;
+    const FROM_EMAIL = getEnv('MAIL_FROM', 'SMTP_FROM') || TO_EMAIL;
+    const FROM_NAME = getEnv('MAIL_FROM_NAME') || 'Güven Web Sitesi';
     const isQuote = formType === 'quote';
 
     const safeName = escapeHtml(name);
@@ -405,7 +454,7 @@ export async function POST(req: NextRequest) {
     const smtpConfig = getSmtpConfig(TO_EMAIL);
 
     if (smtpConfig) {
-      const smtpFromEmail = FROM_EMAIL || smtpConfig.user;
+      const smtpFromEmail = smtpConfig.user || FROM_EMAIL;
 
       try {
         await sendSmtpMailWithFallback(smtpConfig, {
@@ -423,15 +472,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             error: 'SMTP_SEND_FAILED',
-            message:
-              'Mail gönderilemedi. Titan SMTP kullanıcı adı, şifre ve Vercel Environment Variables ayarlarını kontrol edin.',
+            message: getSafeSmtpErrorMessage(error),
           },
           { status: 500 },
         );
       }
-    } else if (process.env.RESEND_API_KEY) {
+    } else if (getEnv('RESEND_API_KEY')) {
       const { Resend } = await import('resend');
-      const resend = new Resend(process.env.RESEND_API_KEY);
+      const resend = new Resend(getEnv('RESEND_API_KEY'));
       await resend.emails.send({
         from: `${FROM_NAME} <${FROM_EMAIL}>`,
         to: [TO_EMAIL],

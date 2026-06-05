@@ -38,7 +38,8 @@ MAIL_TO=info@guvenismakine.com
 ```
 
 Notlar:
-- `SMTP_PASS` alanına Titan panelindeki `info@guvenismakine.com` hesabının mail şifresi girilmelidir.
+- `SMTP_PASS` alanına Titan panelindeki `info@guvenismakine.com` hesabının mail şifresi girilmelidir. Değeri girerken başına/sonuna boşluk veya tırnak işareti koymayın.
+- `SMTP_USER` mutlaka tam mail adresi olmalıdır: `info@guvenismakine.com`.
 - Kod varsayılan olarak Titan'ın `smtp.titan.email` sunucusunu ve `465 / SSL-TLS` ayarını kullanır.
 - Alternatif olarak `SMTP_PORT=587` ve `SMTP_SECURE=false` ile STARTTLS kullanılabilir.
 - Yerelde test etmek için `.env.local` dosyası oluşturabilirsiniz. Örnek dosya: `.env.example`.
