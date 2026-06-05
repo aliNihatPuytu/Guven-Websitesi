@@ -51,6 +51,21 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
+  const showAlert = (message: string) => {
+    if (typeof window !== 'undefined') {
+      window.alert(message);
+    }
+  };
+
+  const getApiMessage = async (res: Response, fallback: string) => {
+    try {
+      const data = await res.json();
+      return data?.message || data?.error || fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -64,12 +79,24 @@ export function ContactSection() {
       if (res.ok) {
         setIsSubmitted(true);
         setFormData(initialForm);
+        showAlert(
+          locale === 'tr'
+            ? 'Mesajınız başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.'
+            : 'Your message has been sent successfully. Our team will contact you as soon as possible.',
+        );
         setTimeout(() => setIsSubmitted(false), 7000);
       } else {
-        setError(locale === 'tr' ? 'Bir hata oluştu. Lütfen tekrar deneyin.' : 'An error occurred. Please try again.');
+        const message = await getApiMessage(
+          res,
+          locale === 'tr' ? 'Bir hata oluştu. Lütfen tekrar deneyin.' : 'An error occurred. Please try again.',
+        );
+        setError(message);
+        showAlert(message);
       }
     } catch {
-      setError(locale === 'tr' ? 'Bağlantı hatası. Lütfen tekrar deneyin.' : 'Connection error. Please try again.');
+      const message = locale === 'tr' ? 'Bağlantı hatası. Lütfen tekrar deneyin.' : 'Connection error. Please try again.';
+      setError(message);
+      showAlert(message);
     } finally {
       setIsSubmitting(false);
     }

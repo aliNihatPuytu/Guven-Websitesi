@@ -67,6 +67,21 @@ export function QuoteCalculator() {
   const canGoToStep2 = formData.machineType && formData.duration &&
     (!isCustomDuration || formData.customDuration.trim().length > 0);
 
+  const showAlert = (message: string) => {
+    if (typeof window !== 'undefined') {
+      window.alert(message);
+    }
+  };
+
+  const getApiMessage = async (res: Response, fallback: string) => {
+    try {
+      const data = await res.json();
+      return data?.message || data?.error || fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -85,10 +100,23 @@ export function QuoteCalculator() {
           formType: 'quote',
         }),
       });
-      if (res.ok) setIsSubmitted(true);
-      else setError(t('quote.error'));
+
+      if (res.ok) {
+        setIsSubmitted(true);
+        showAlert(
+          locale === 'tr'
+            ? 'Teklif talebiniz başarıyla gönderildi. Ekibimiz en kısa sürede sizinle iletişime geçecektir.'
+            : 'Your quote request has been sent successfully. Our team will contact you as soon as possible.',
+        );
+      } else {
+        const message = await getApiMessage(res, t('quote.error'));
+        setError(message);
+        showAlert(message);
+      }
     } catch {
-      setError(t('quote.error'));
+      const message = t('quote.error');
+      setError(message);
+      showAlert(message);
     } finally {
       setIsSubmitting(false);
     }
