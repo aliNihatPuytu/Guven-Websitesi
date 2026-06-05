@@ -8,6 +8,7 @@ export const runtime = 'nodejs';
 type SmtpMail = {
   fromName: string;
   fromEmail: string;
+  envelopeFrom?: string;
   to: string[];
   replyTo?: string;
   subject: string;
@@ -82,11 +83,16 @@ function getSmtpConfig(toEmail: string): SmtpConfig | null {
   if (!pass) return null;
 
   const port = Number(process.env.SMTP_PORT || process.env.TITAN_SMTP_PORT || 465);
+  const secureValue = String(
+    process.env.SMTP_SECURE ||
+      process.env.TITAN_SMTP_SECURE ||
+      (port === 465 ? 'true' : 'false'),
+  ).toLowerCase();
 
   return {
     host: process.env.SMTP_HOST || process.env.TITAN_SMTP_HOST || 'smtp.titan.email',
     port,
-    secure: String(process.env.SMTP_SECURE || process.env.TITAN_SMTP_SECURE || 'true') !== 'false',
+    secure: secureValue === 'true' || secureValue === '1' || secureValue === 'yes',
     user:
       process.env.SMTP_USER ||
       process.env.SMTP_USERNAME ||
@@ -131,7 +137,7 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
       reject(new Error('SMTP connection timeout'));
     };
 
-    client.setTimeout(20000);
+    client.setTimeout(30000);
     client.once(config.secure ? 'secureConnect' : 'connect', onConnect);
     client.once('error', onError);
     client.once('timeout', onTimeout);
@@ -173,13 +179,13 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
       socket.once('timeout', onTimeout);
     });
 
-  const command = async (line: string, expectedCodes: number[] = [250]) => {
+  const command = async (line: string, expectedCodes: number[] = [250], logLabel = line) => {
     socket.write(`${line}\r\n`);
     const response = await readResponse();
     const code = Number(response.slice(0, 3));
 
     if (!expectedCodes.includes(code)) {
-      throw new Error(`SMTP command failed (${line}): ${response}`);
+      throw new Error(`SMTP command failed (${logLabel}): ${response}`);
     }
 
     return response;
@@ -197,6 +203,7 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
           servername: config.host,
         });
 
+        secureSocket.setTimeout(30000);
         secureSocket.once('secureConnect', () => resolve(secureSocket));
         secureSocket.once('error', reject);
       });
@@ -208,10 +215,10 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
     }
 
     await command('AUTH LOGIN', [334]);
-    await command(Buffer.from(config.user, 'utf8').toString('base64'), [334]);
-    await command(Buffer.from(config.pass, 'utf8').toString('base64'), [235]);
+    await command(Buffer.from(config.user, 'utf8').toString('base64'), [334], 'AUTH USER');
+    await command(Buffer.from(config.pass, 'utf8').toString('base64'), [235], 'AUTH PASS');
 
-    await command(`MAIL FROM:<${mail.fromEmail}>`);
+    await command(`MAIL FROM:<${mail.envelopeFrom || mail.fromEmail}>`);
 
     for (const recipient of mail.to) {
       await command(`RCPT TO:<${recipient}>`, [250, 251]);
@@ -263,6 +270,39 @@ async function sendSmtpMail(config: SmtpConfig, mail: SmtpMail) {
   } finally {
     socket.end();
   }
+}
+
+async function sendSmtpMailWithFallback(config: SmtpConfig, mail: SmtpMail) {
+  const candidates: SmtpConfig[] = [config];
+
+  // Titan genelde 465 SSL ile çalışır; bazı serverless ortamlarda 587 STARTTLS daha stabil olabilir.
+  const fallbackConfigs: SmtpConfig[] = [
+    { ...config, port: 465, secure: true },
+    { ...config, port: 587, secure: false },
+  ];
+
+  for (const fallbackConfig of fallbackConfigs) {
+    if (!candidates.some((item) => item.port === fallbackConfig.port && item.secure === fallbackConfig.secure)) {
+      candidates.push(fallbackConfig);
+    }
+  }
+
+  let lastError: unknown;
+
+  for (const candidate of candidates) {
+    try {
+      await sendSmtpMail(candidate, mail);
+      return;
+    } catch (error) {
+      lastError = error;
+      console.error(
+        `SMTP send failed on ${candidate.host}:${candidate.port} secure=${candidate.secure}`,
+        error instanceof Error ? error.message : error,
+      );
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('SMTP send failed');
 }
 
 export async function POST(req: NextRequest) {
@@ -365,15 +405,30 @@ export async function POST(req: NextRequest) {
     const smtpConfig = getSmtpConfig(TO_EMAIL);
 
     if (smtpConfig) {
-      await sendSmtpMail(smtpConfig, {
-        fromName: FROM_NAME,
-        fromEmail: FROM_EMAIL,
-        to: [TO_EMAIL],
-        replyTo: isValidEmail(email) ? String(email).trim() : undefined,
-        subject,
-        html: htmlContent,
-        text: textContent,
-      });
+      const smtpFromEmail = FROM_EMAIL || smtpConfig.user;
+
+      try {
+        await sendSmtpMailWithFallback(smtpConfig, {
+          fromName: FROM_NAME,
+          fromEmail: smtpFromEmail,
+          envelopeFrom: smtpConfig.user,
+          to: [TO_EMAIL],
+          replyTo: isValidEmail(email) ? String(email).trim() : undefined,
+          subject,
+          html: htmlContent,
+          text: textContent,
+        });
+      } catch (error) {
+        console.error('Titan SMTP gönderim hatası:', error instanceof Error ? error.message : error);
+        return NextResponse.json(
+          {
+            error: 'SMTP_SEND_FAILED',
+            message:
+              'Mail gönderilemedi. Titan SMTP kullanıcı adı, şifre ve Vercel Environment Variables ayarlarını kontrol edin.',
+          },
+          { status: 500 },
+        );
+      }
     } else if (process.env.RESEND_API_KEY) {
       const { Resend } = await import('resend');
       const resend = new Resend(process.env.RESEND_API_KEY);
@@ -387,14 +442,24 @@ export async function POST(req: NextRequest) {
     } else {
       console.error('SMTP configuration is missing. Set SMTP_PASS / TITAN_SMTP_PASSWORD in Vercel.');
       return NextResponse.json(
-        { error: 'Mail server is not configured' },
+        {
+          error: 'SMTP_NOT_CONFIGURED',
+          message:
+            'Mail gönderilemedi. Vercel Environment Variables alanına SMTP_USER ve SMTP_PASS değerlerini ekleyip yeniden deploy edin.',
+        },
         { status: 500 },
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: 'Mesaj başarıyla gönderildi.' });
   } catch (error) {
     console.error('Contact API error:', error);
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'FAILED_TO_SEND',
+        message: 'Mail gönderimi sırasında beklenmeyen bir hata oluştu.',
+      },
+      { status: 500 },
+    );
   }
 }
