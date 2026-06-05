@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,26 +9,26 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import {
   CheckCircle2, Truck, User, Send, MapPin,
-  ArrowRight, Wrench, Shield, Zap, PenLine,
+  ArrowRight, Wrench, Zap, PenLine,
 } from 'lucide-react';
 import { SectionWrapper } from '@/components/ui/section-wrapper';
 import { useLanguage } from '@/contexts/language-context';
 
 const machineTypes = [
-  { value: 'Ekskavatör', labelTr: 'Ekskavatör', labelEn: 'Excavator', basePrice: 5000, icon: '🚜' },
-  { value: 'Mini Ekskavatör', labelTr: 'Mini Ekskavatör', labelEn: 'Mini Excavator', basePrice: 2500, icon: '🔧' },
-  { value: 'Forklift', labelTr: 'Forklift', labelEn: 'Forklift', basePrice: 2000, icon: '🏗️' },
-  { value: 'İstif Makinesi', labelTr: 'İstif Makinesi', labelEn: 'Stacker', basePrice: 1800, icon: '📦' },
-  { value: 'Yükleyici', labelTr: 'Yükleyici', labelEn: 'Loader', basePrice: 4000, icon: '⚙️' },
-  { value: 'Diğer', labelTr: 'Diğer', labelEn: 'Other', basePrice: 3000, icon: '➕' },
+  { value: 'Ekskavatör', labelTr: 'Ekskavatör', labelEn: 'Excavator', icon: '🚜' },
+  { value: 'Mini Ekskavatör', labelTr: 'Mini Ekskavatör', labelEn: 'Mini Excavator', icon: '🔧' },
+  { value: 'Forklift', labelTr: 'Forklift', labelEn: 'Forklift', icon: '🏗️' },
+  { value: 'İstif Makinesi', labelTr: 'İstif Makinesi', labelEn: 'Stacker', icon: '📦' },
+  { value: 'Yükleyici', labelTr: 'Yükleyici', labelEn: 'Loader', icon: '⚙️' },
+  { value: 'Diğer', labelTr: 'Diğer', labelEn: 'Other', icon: '➕' },
 ];
 
 const rentalDurations = [
-  { value: '1 Gün', labelTr: '1 Gün', labelEn: '1 Day', multiplier: 1 },
-  { value: '3 Gün', labelTr: '3 Gün', labelEn: '3 Days', multiplier: 2.5 },
-  { value: '1 Hafta', labelTr: '1 Hafta', labelEn: '1 Week', multiplier: 5 },
-  { value: '1 Ay', labelTr: '1 Ay', labelEn: '1 Month', multiplier: 15 },
-  { value: 'Kendim Belirleyeceğim', labelTr: 'Kendim Belirleyeceğim', labelEn: 'I Will Decide', multiplier: 0 },
+  { value: '1 Gün', labelTr: '1 Gün', labelEn: '1 Day' },
+  { value: '3 Gün', labelTr: '3 Gün', labelEn: '3 Days' },
+  { value: '1 Hafta', labelTr: '1 Hafta', labelEn: '1 Week' },
+  { value: '1 Ay', labelTr: '1 Ay', labelEn: '1 Month' },
+  { value: 'Kendim Belirleyeceğim', labelTr: 'Kendim Belirleyeceğim', labelEn: 'I Will Decide' },
 ];
 
 const initialForm = {
@@ -51,18 +51,9 @@ export function QuoteCalculator() {
 
   const isCustomDuration = formData.duration === 'Kendim Belirleyeceğim';
 
-  const estimatedPrice = useMemo(() => {
-    if (isCustomDuration) return null;
-    const machine = machineTypes.find((m) => m.value === formData.machineType);
-    const duration = rentalDurations.find((d) => d.value === formData.duration);
-    if (!machine || !duration || duration.multiplier === 0) return null;
-    let price = machine.basePrice * duration.multiplier;
-    if (formData.operatorRequired) price += 1500 * duration.multiplier;
-    return price;
-  }, [formData.machineType, formData.duration, formData.operatorRequired, isCustomDuration]);
-
   const selectedMachine = machineTypes.find((m) => m.value === formData.machineType);
   const selectedDuration = rentalDurations.find((d) => d.value === formData.duration);
+  const hasSummary = Boolean(selectedMachine || selectedDuration || formData.operatorRequired);
 
   const canGoToStep2 = formData.machineType && formData.duration &&
     (!isCustomDuration || formData.customDuration.trim().length > 0);
@@ -96,7 +87,6 @@ export function QuoteCalculator() {
         body: JSON.stringify({
           ...formData,
           duration: durationToSend,
-          estimatedPrice: estimatedPrice ? estimatedPrice.toLocaleString('tr-TR') : 'Belirlenecek',
           formType: 'quote',
         }),
       });
@@ -169,58 +159,50 @@ export function QuoteCalculator() {
               ))}
             </div>
 
-            {/* Price / summary preview */}
+            {/* Request summary preview */}
             <AnimatePresence mode="wait">
-              {(estimatedPrice || (isCustomDuration && formData.customDuration)) ? (
+              {hasSummary ? (
                 <motion.div
-                  key="price"
+                  key="summary"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-6"
                 >
-                  {estimatedPrice ? (
-                    <>
-                      <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-1">{t('quote.summary.price')}</p>
-                      <p className="text-4xl font-bold text-white mb-0.5">{estimatedPrice.toLocaleString('tr-TR')} ₺</p>
-                      <p className="text-white/50 text-xs">{t('quote.summary.vat')}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-1">
-                        {locale === 'tr' ? 'Kiralama Süresi' : 'Rental Duration'}
-                      </p>
-                      <p className="text-xl font-bold text-white">{formData.customDuration}</p>
-                      <p className="text-white/50 text-xs mt-1">
-                        {locale === 'tr' ? 'Fiyat görüşme ile belirlenecektir.' : 'Price will be determined by negotiation.'}
-                      </p>
-                    </>
-                  )}
+                  <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-4">
+                    {locale === 'tr' ? 'Talep Özeti' : 'Request Summary'}
+                  </p>
 
-                  {selectedMachine && (
-                    <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedMachine && (
                       <div>
                         <p className="text-white/40 text-xs mb-0.5">{t('quote.summary.machine')}</p>
                         <p className="text-white text-sm font-medium">
                           {selectedMachine.icon} {locale === 'tr' ? selectedMachine.labelTr : selectedMachine.labelEn}
                         </p>
                       </div>
-                      {selectedDuration && (
-                        <div>
-                          <p className="text-white/40 text-xs mb-0.5">{t('quote.summary.duration')}</p>
-                          <p className="text-white text-sm font-medium">
-                            {locale === 'tr' ? selectedDuration.labelTr : selectedDuration.labelEn}
-                          </p>
-                        </div>
-                      )}
-                      {formData.operatorRequired && (
-                        <div className="col-span-2">
-                          <p className="text-white/40 text-xs mb-0.5">{t('quote.summary.operator')}</p>
-                          <p className="text-white text-sm font-medium">✓ {t('quote.summary.operator.yes')}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    )}
+
+                    {selectedDuration && (
+                      <div>
+                        <p className="text-white/40 text-xs mb-0.5">{t('quote.summary.duration')}</p>
+                        <p className="text-white text-sm font-medium">
+                          {isCustomDuration && formData.customDuration
+                            ? formData.customDuration
+                            : locale === 'tr'
+                              ? selectedDuration.labelTr
+                              : selectedDuration.labelEn}
+                        </p>
+                      </div>
+                    )}
+
+                    {formData.operatorRequired && (
+                      <div className="col-span-2">
+                        <p className="text-white/40 text-xs mb-0.5">{t('quote.summary.operator')}</p>
+                        <p className="text-white text-sm font-medium">✓ {t('quote.summary.operator.yes')}</p>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               ) : (
                 <motion.div
@@ -350,8 +332,8 @@ export function QuoteCalculator() {
                         </div>
                         <p className="text-xs text-[#0B1929]/45">
                           {locale === 'tr'
-                            ? 'Fiyatlandırma görüşme ile yapılacak, ekibimiz sizi arayacaktır.'
-                            : 'Pricing will be determined by negotiation, our team will call you.'}
+                            ? 'Ekibimiz detayları netleştirmek için sizi arayacaktır.'
+                            : 'Our team will call you to clarify the details.'}
                         </p>
                       </motion.div>
                     )}

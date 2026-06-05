@@ -15,7 +15,6 @@ type ContactBody = {
   duration?: string;
   location?: string;
   operatorRequired?: boolean;
-  estimatedPrice?: string;
   message?: string;
   formType?: 'quote' | 'contact' | string;
 };
@@ -83,7 +82,6 @@ function createSubmissionFields(body: ContactBody) {
     fields['Kiralama Süresi'] = asText(body.duration);
     fields['Proje Lokasyonu'] = asText(body.location);
     fields.Operatör = body.operatorRequired ? 'Gerekli' : 'Gerekmez';
-    fields['Tahmini Fiyat'] = asText(body.estimatedPrice, 'Belirlenecek');
   }
 
   return { isQuote, subject, fields };
