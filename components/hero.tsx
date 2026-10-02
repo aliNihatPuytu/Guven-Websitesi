@@ -205,7 +205,7 @@ export function Hero() {
         </motion.span>
       </motion.div>
 =======
-          src="/videos/guven-video.MP4"
+          src="/videos/guven_video.MP4"
           poster="/images/hero-construction.jpg"
           autoPlay
           loop
