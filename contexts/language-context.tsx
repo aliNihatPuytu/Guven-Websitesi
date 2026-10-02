@@ -1,6 +1,10 @@
 'use client';
 
+<<<<<<< HEAD
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+=======
+import { createContext, useContext, useState, ReactNode } from 'react';
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
 
 export type Locale = 'tr' | 'en';
 
@@ -19,7 +23,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.machines': 'Makineler',
     'nav.projects': 'Projeler',
     'nav.references': 'Referanslar',
+<<<<<<< HEAD
     'nav.catalog': 'Katalog',
+=======
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
     'nav.team': 'Ekibimiz',
     'nav.about': 'Hakkımızda',
     'nav.contact': 'İletişim',
@@ -28,9 +35,14 @@ const translations: Record<Locale, Record<string, string>> = {
     // HERO
     'hero.badge': "1978'den Bugüne, Geleceğe Güvenle",
     'hero.title': 'Güven İş ve İstif Makineleri',
+<<<<<<< HEAD
     'hero.subtitle': 'Satış, kiralama, yedek parça ve teknik destek hizmetlerinde güvenilir çözüm ortağı.',
     'hero.cta.machines': 'Makineleri İncele',
     'hero.cta.catalog': 'Katalog',
+=======
+    'hero.subtitle': 'Satış, kiralama, yedek parça ve teknik destek \nhizmetlerinde güvenilir çözüm ortağı.',
+    'hero.cta.machines': 'Makineleri İncele',
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
     'hero.cta.quote': 'Teklif Al',
     'hero.stat.experience': 'Yıl Deneyim',
     'hero.stat.projects': 'Tamamlanan Proje',
@@ -54,6 +66,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'machines.title': 'Geniş Makine Filomuz',
     'machines.subtitle': 'Her türlü inşaat ve lojistik projeniz için doğru ekipmanı sunuyoruz.',
     'machines.cta': 'Detayları İncele',
+<<<<<<< HEAD
     'machines.viewAll': 'Tüm Makineler',
 
     // CATALOG
@@ -67,6 +80,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'catalog.usage': 'Kullanım Alanları',
     'catalog.detail': 'Detay Sayfası',
     'catalog.quote': 'Bu Makine İçin Teklif Al',
+=======
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
 
     // SAHIBINDEN
     'listings.label': 'Sahibinden.com Mağazamız',
@@ -128,7 +143,11 @@ const translations: Record<Locale, Record<string, string>> = {
     // ABOUT
     'about.label': 'Hakkımızda',
     'about.title': "1978'den Bu Yana Güvenle Hizmet",
+<<<<<<< HEAD
     'about.p1': "Güven İş ve İstif Makineleri, 1978 yılından bu yana İstanbul'da iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
+=======
+    'about.p1': "Güven İş ve İstif Makineleri, 1978 yılından bu yana iş ve istif makineleri sektöründe faaliyet göstermektedir. Kurulduğumuz günden bu yana edindiğimiz tecrübe ve güven anlayışıyla müşterilerimize kaliteli, hızlı ve sürdürülebilir çözümler sunmaktayız.",
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
     'about.p2': 'Firmamız çeşitli iş ve istif makinelerinin satış, kiralama ve yedek parça hizmetlerini profesyonel bir anlayışla sunmaktadır. Geniş ürün yelpazemiz sayesinde birçok farklı markaya ait makineler için müşterilerimize uygun seçenekler sunuyor, yedek parça ve teknik destek konusunda hızlı çözümler sağlıyoruz.',
     'about.cta': 'Bizimle İletişime Geçin',
     'about.mission.title': 'Misyonumuz',
@@ -189,7 +208,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.machines': 'Machines',
     'nav.projects': 'Projects',
     'nav.references': 'References',
+<<<<<<< HEAD
     'nav.catalog': 'Catalog',
+=======
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
     'nav.team': 'Our Team',
     'nav.about': 'About Us',
     'nav.contact': 'Contact',
@@ -200,7 +222,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'hero.title': 'Güven Material Handling Equipment',
     'hero.subtitle': "Your trusted solution partner for sales, rental, spare parts, and technical support services.",
     'hero.cta.machines': 'View Machines',
+<<<<<<< HEAD
     'hero.cta.catalog': 'Catalog',
+=======
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
     'hero.cta.quote': 'Get a Quote',
     'hero.stat.experience': 'Years Experience',
     'hero.stat.projects': 'Completed Projects',
@@ -224,6 +249,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'machines.title': 'Our Wide Machine Fleet',
     'machines.subtitle': 'We provide the right equipment for all types of construction and logistics projects.',
     'machines.cta': 'View Details',
+<<<<<<< HEAD
     'machines.viewAll': 'All Machines',
 
     // CATALOG
@@ -237,6 +263,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'catalog.usage': 'Usage Areas',
     'catalog.detail': 'Detail Page',
     'catalog.quote': 'Get a Quote for This Machine',
+=======
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
 
     // SAHIBINDEN
     'listings.label': 'Sahibinden.com Store',
@@ -356,6 +384,7 @@ const translations: Record<Locale, Record<string, string>> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+<<<<<<< HEAD
   const [locale, setLocaleState] = useState<Locale>('tr');
 
   useEffect(() => {
@@ -372,6 +401,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: string) => translations[locale][key] ?? translations.tr[key] ?? key;
+=======
+  const [locale, setLocale] = useState<Locale>('tr');
+  const t = (key: string) => translations[locale][key] ?? key;
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
   return (
     <LanguageContext.Provider value={{ locale, setLocale, t }}>
       {children}

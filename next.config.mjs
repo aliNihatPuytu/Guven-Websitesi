@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+<<<<<<< HEAD
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
@@ -32,3 +33,23 @@ const nextConfig = {
 };
 
 export default nextConfig;
+=======
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'logo.clearbit.com',
+      },
+    ],
+  },
+};
+
+export default nextConfig;
+>>>>>>> 87ec4f623f8827d5c1d997f4fada778cc5a42332
