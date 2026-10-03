@@ -46,6 +46,8 @@ export const siteConfig = {
   // - YouTube kullanmak için youtubeId alanını doldurun; dolu ise YouTube tercih edilir.
   video: {
     file: '/videos/guven-video.MP4',
+    // Yalnızca ana sayfadaki hero arka plan videosu
+    heroBackground: '/videos/tanitim-filmi-arka-plan.mp4',
     poster: '/images/about-company.jpg',
     youtubeId: 'Mg_yOXaDn7o', // Tanıtım filmi (katalogdaki QR kod)
   },

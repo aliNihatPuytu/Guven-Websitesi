@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `${machine.title}${machine.tonnage ? ` (${machine.tonnage})` : ''} – Kiralama ve Satış`;
   return {
     title,
-    description: `${machine.shortDesc} Güven İş ve İstif Makineleri, İstanbul. Teknik özellikler, kullanım alanları ve teklif.`,
+    description: `${machine.shortDesc} Güven İş ve İstif Makineleri, İstanbul. Kullanım alanları, özellikler ve teklif.`,
     alternates: { canonical: `/makineler/${machine.id}` },
     openGraph: { title, description: machine.shortDesc, images: [{ url: machine.image, width: 1376, height: 768 }] },
   };
@@ -115,21 +115,6 @@ export default async function MachinePage({ params }: PageProps) {
 
               {/* Yan panel */}
               <aside className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
-                <Reveal>
-                  <div className="bg-ink text-white rounded-xl p-6 sm:p-7 relative overflow-hidden">
-                    <div className="absolute inset-0 grid-texture pointer-events-none" aria-hidden />
-                    <h3 className="relative font-heading font-bold text-xl mb-5">Teknik Özellikler</h3>
-                    <dl className="relative divide-y divide-white/10">
-                      {machine.specs.map((s) => (
-                        <div key={s.label} className="flex items-center justify-between gap-4 py-3">
-                          <dt className="text-sm text-white/60">{s.label}</dt>
-                          <dd className="text-sm font-semibold text-right tabular-nums">{s.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                </Reveal>
-
                 <Reveal delay={0.05}>
                   <div className="bg-mist rounded-xl p-6 border border-line">
                     <h3 className="font-heading font-semibold text-lg text-ink mb-4">Kullanım Alanları</h3>

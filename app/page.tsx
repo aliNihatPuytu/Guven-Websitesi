@@ -26,12 +26,12 @@ export default function Home() {
       <main>
         <HashScrollHandler />
         <Hero />
+        <AboutCompany />
         <Services />
         <MachineCategories />
         <CatalogSection />
         <ReferencesMarquee />
         <QuoteCalculator />
-        <AboutCompany />
         <WhyChooseUs />
         <CTASection />
         <ContactSection />

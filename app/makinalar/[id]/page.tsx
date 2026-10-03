@@ -90,22 +90,6 @@ export default async function MachinePage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* Specs */}
-              <div className="bg-[#F6F8FB] rounded-2xl p-6 border border-[#E8ECF0]">
-                <h3 className="font-heading text-xl text-[#0B1929] mb-5 flex items-center gap-2">
-                  <Wrench className="w-5 h-5 text-[#1E5AA8]" />
-                  Teknik Özellikler
-                </h3>
-                <div className="space-y-0">
-                  {machine.specs.map((spec) => (
-                    <div key={spec.label} className="flex items-center justify-between py-3 border-b border-[#E8ECF0] last:border-0">
-                      <span className="text-sm text-[#0B1929]/60">{spec.label}</span>
-                      <span className="text-sm font-semibold text-[#0B1929]">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Usage Areas */}
               <div className="bg-[#EEF3FB] rounded-2xl p-6">
                 <h3 className="font-heading text-lg text-[#1E5AA8] mb-4">Kullanım Alanları</h3>

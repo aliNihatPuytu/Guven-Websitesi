@@ -121,8 +121,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // REFERENCES
     'references.label': 'Referanslarımız',
-    'references.title': 'İş Ortaklarımız',
-    'references.subtitle': 'Türkiye’nin önde gelen firmaları projelerinde Güven İş ve İstif Makineleri’nin güvenilir çözüm ortaklığını tercih etti.',
+    'references.title': 'Birlikte Çalıştığımız Firmalar',
+    'references.subtitle': 'Türkiye’nin önde gelen firmaları projelerinde Güven İş ve İstif Makineleri’ni tercih etti.',
     'references.viewAll': 'Tüm Referanslar',
 
     // ABOUT
@@ -291,8 +291,8 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // REFERENCES
     'references.label': 'Our References',
-    'references.title': 'Our Partners',
-    'references.subtitle': 'Leading construction, logistics and industrial companies in Turkey have chosen Güven Material Handling Equipment as their trusted solution partner.',
+    'references.title': 'Companies We Work With',
+    'references.subtitle': 'Leading construction, logistics and industrial companies in Turkey have chosen Güven Material Handling Equipment for their projects.',
     'references.viewAll': 'View All References',
 
     // ABOUT

@@ -8,7 +8,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import {
   CheckCircle2, User, Send, MapPin, ArrowRight, ArrowLeft, Wrench, Zap, PenLine, Plus,
-  ShieldCheck, Clock,
 } from 'lucide-react';
 import { Reveal } from '@/components/ui/reveal';
 import { useLanguage } from '@/contexts/language-context';
@@ -42,8 +41,6 @@ const initialForm = {
 const features = [
   { icon: Wrench, labelTr: 'Periyodik bakımlı makineler', labelEn: 'Periodically maintained machines' },
   { icon: Zap, labelTr: 'Hızlı teslimat', labelEn: 'Fast delivery' },
-  { icon: ShieldCheck, labelTr: 'Sigortalı filo', labelEn: 'Insured fleet' },
-  { icon: Clock, labelTr: 'Aynı gün dönüş', labelEn: 'Same-day response' },
 ];
 
 const inputCls = 'h-11 border-line bg-mist focus-visible:bg-white focus-visible:border-brand rounded-md';

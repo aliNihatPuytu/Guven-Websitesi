@@ -4,12 +4,10 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, Play, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Play, Volume2, VolumeX } from 'lucide-react';
 import { Reveal, Counter } from '@/components/ui/reveal';
 import { useLanguage } from '@/contexts/language-context';
 import { siteConfig } from '@/lib/site-config';
-
-const highlightKeys = ['highlight.1', 'highlight.2', 'highlight.3', 'highlight.4', 'highlight.5', 'highlight.6'];
 
 /** Tanıtım filmi oynatıcı: siteConfig.video üzerinden dosya veya YouTube. */
 function PromoVideo() {
@@ -49,7 +47,6 @@ function PromoVideo() {
         <video
           ref={videoRef}
           src={siteConfig.video.file}
-          poster={siteConfig.video.poster}
           playsInline
           controls={playing}
           preload="metadata"
@@ -66,8 +63,17 @@ function PromoVideo() {
           className="group absolute inset-0 z-10 flex items-center justify-center cursor-pointer"
           aria-label={t('about.play')}
         >
-          <Image src={siteConfig.video.poster} alt="" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-          <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+          {/* Kapak — marka mavisi (#1e5aa8) zemin + beyaz logo */}
+          <span className="absolute inset-0 bg-gradient-to-br from-brand-light via-brand to-brand-dark" aria-hidden />
+          <span className="absolute inset-0 grid-texture opacity-40" aria-hidden />
+          <span className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-white/10 blur-2xl" aria-hidden />
+          <Image
+            src="/images/guven-white.png"
+            alt=""
+            width={220}
+            height={72}
+            className="absolute top-6 left-6 w-36 sm:w-44 h-auto opacity-95"
+          />
           <span className="relative w-20 h-20 rounded-full bg-white text-brand flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-105">
             <span className="absolute inset-0 rounded-full bg-white/40 animate-ping [animation-duration:2.2s]" aria-hidden />
             <Play className="relative w-7 h-7 ml-1" fill="currentColor" />
@@ -105,7 +111,7 @@ export function AboutCompany({ full = false }: { full?: boolean }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.35, duration: 0.6 }}
-              className="absolute z-20 -bottom-5 right-4 sm:right-6 bg-brand text-white px-6 py-5 rounded-xl shadow-xl"
+              className="absolute z-20 -bottom-5 right-4 sm:right-6 bg-brand text-white px-6 py-5 rounded-xl shadow-xl ring-4 ring-white"
             >
               <div className="font-heading font-bold text-4xl leading-none">
                 <Counter to={45} suffix="+" />
@@ -122,15 +128,6 @@ export function AboutCompany({ full = false }: { full?: boolean }) {
             </div>
             <p className="mt-6 text-base sm:text-lg text-ink/80 leading-relaxed">{t('about.p1')}</p>
             <p className="mt-4 text-steel leading-relaxed">{t('about.p2')}</p>
-
-            <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3">
-              {highlightKeys.map((k) => (
-                <li key={k} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="h-5 w-5 text-brand shrink-0 mt-0.5" />
-                  <span className="text-ink text-sm font-medium leading-snug">{t(k)}</span>
-                </li>
-              ))}
-            </ul>
 
             <Link
               href={full ? '/iletisim' : '/hakkimizda'}

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, BookOpen, Weight, Youtube } from 'lucide-react';
+import { ArrowRight, BookOpen, Weight, Youtube } from 'lucide-react';
 import { SectionHeading } from '@/components/section-heading';
 import { Reveal, Stagger, StaggerItem } from '@/components/ui/reveal';
 import { useLanguage } from '@/contexts/language-context';
@@ -50,61 +50,8 @@ export function CatalogView() {
 
   return (
     <>
-      {/* ── İçindekiler ───────────────────────────────────────────────────── */}
-      <section className="section-y bg-white">
-        <div className="container-x">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-14">
-            <SectionHeading
-              kicker={tr ? 'İçindekiler' : 'Contents'}
-              title={tr ? 'Katalogda Neler Var?' : "What's Inside"}
-              description={
-                tr
-                  ? 'Bir bölüme tıklayın; katalog o sayfaya çevrilsin. 16 sayfada hakkımızda, makine filomuz, projelerimiz ve iletişim bilgilerimiz yer alıyor.'
-                  : 'Click a section to flip the catalog to that page. 16 pages covering our company, fleet, projects and contact details.'
-              }
-            />
-            <a
-              href={siteConfig.catalogPdf}
-              download
-              className="group inline-flex items-center gap-2 text-brand font-semibold text-sm shrink-0"
-            >
-              {t('catalog.download')}
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-          </div>
-
-          <Stagger className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-            {catalogSections.map((s) => (
-              <StaggerItem key={s.label}>
-                <button
-                  onClick={() => gotoPage(s.page)}
-                  className="group w-full text-left rounded-xl border border-line bg-white overflow-hidden hover:border-brand/40 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(30,90,168,.45)] transition-[border-color,transform,box-shadow] duration-300"
-                >
-                  <div className="relative aspect-[3/4] bg-mist overflow-hidden">
-                    <Image
-                      src={`/katalog/thumbs/page-${String(s.page).padStart(2, '0')}.jpg`}
-                      alt={`${s.label} — sayfa ${s.page}`}
-                      fill
-                      sizes="(max-width: 640px) 45vw, (max-width: 1280px) 25vw, 14vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <span className="absolute top-2 left-2 text-[0.625rem] font-bold px-1.5 py-0.5 rounded bg-ink/80 text-white tabular-nums">
-                      {String(s.page).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <div className="px-3 py-2.5 flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold text-ink truncate">{s.label}</span>
-                    <BookOpen className="w-3.5 h-3.5 text-brand shrink-0" />
-                  </div>
-                </button>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
       {/* ── Makine grupları (katalog sırası) ─────────────────────────────── */}
-      <section className="section-y bg-mist border-t border-line">
+      <section className="section-y bg-mist">
         <div className="container-x">
           <SectionHeading
             kicker={tr ? 'Makine Filomuz' : 'Our Fleet'}

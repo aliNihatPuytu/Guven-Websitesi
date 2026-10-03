@@ -7,7 +7,7 @@ import { Reveal } from '@/components/ui/reveal';
 import { useLanguage } from '@/contexts/language-context';
 import { serviceItems } from '@/components/services';
 
-const details: Record<string, { image: string; bulletsTr: string[]; bulletsEn: string[] }> = {
+const details: Record<string, { image: string; position?: string; bulletsTr: string[]; bulletsEn: string[] }> = {
   rental: {
     image: '/images/machines/ekskavator.jpg',
     bulletsTr: ['Günlük, haftalık ve aylık kiralama', 'Operatörlü veya operatörsüz seçenek', 'Düzenli bakımlı, sigortalı makineler', 'Şantiyeye hızlı teslimat'],
@@ -19,12 +19,13 @@ const details: Record<string, { image: string; bulletsTr: string[]; bulletsEn: s
     bulletsEn: ['New and used machinery', 'Forklift and stacker sales', 'Current listings on our sahibinden.com store', 'Inspection and delivery support'],
   },
   parts: {
-    image: '/images/machines/lastikli-yukleyici.jpg',
+    image: '/images/services/yedek-parca.jpg',
     bulletsTr: ['Farklı markalara uygun yedek parça', 'Hızlı tedarik ve stok takibi', 'Orijinal ve muadil seçenekler', 'Teknik danışmanlık'],
     bulletsEn: ['Spare parts for various brands', 'Fast supply and stock tracking', 'Original and equivalent options', 'Technical consultancy'],
   },
   support: {
-    image: '/images/machines/greyder.jpg',
+    image: '/images/services/servis.jpg',
+    position: '70% center', // geniş görsel: iki teknisyen kadrajda kalsın
     bulletsTr: ['Periyodik bakım ve arıza onarımı', 'Yerinde servis hizmeti', 'Deneyimli teknik kadro', 'Projenizin her aşamasında destek'],
     bulletsEn: ['Periodic maintenance and repair', 'On-site service', 'Experienced technical team', 'Support at every stage of your project'],
   },
@@ -44,7 +45,7 @@ export function ServicesDetail() {
               <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <Reveal className={`lg:col-span-5 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-mist border border-line">
-                    <Image src={d.image} alt={t(`services.${key}.title`)} fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" />
+                    <Image src={d.image} alt={t(`services.${key}.title`)} fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" style={d.position ? { objectPosition: d.position } : undefined} />
                   </div>
                 </Reveal>
                 <Reveal delay={0.08} className={`lg:col-span-7 ${i % 2 === 1 ? 'lg:order-1' : ''}`}>

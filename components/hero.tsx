@@ -37,7 +37,7 @@ export function Hero() {
         />
         <video
           ref={videoRef}
-          src={siteConfig.video.file}
+          src={siteConfig.video.heroBackground}
           poster="/images/hero-construction.jpg"
           autoPlay
           loop

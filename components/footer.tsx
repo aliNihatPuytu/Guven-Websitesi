@@ -14,11 +14,11 @@ export function Footer() {
 
   const pages = [
     { name: t('nav.home'), href: '/' },
+    { name: t('nav.about'), href: '/hakkimizda' },
     { name: t('nav.services'), href: '/hizmetler' },
     { name: t('nav.machines'), href: '/makineler' },
     { name: t('nav.catalog'), href: '/katalog' },
     { name: t('nav.references'), href: '/referanslar' },
-    { name: t('nav.about'), href: '/hakkimizda' },
     { name: t('nav.contact'), href: '/iletisim' },
   ];
 
